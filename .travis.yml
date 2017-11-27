@@ -23,7 +23,7 @@ script:
     [[ $NUM_FAILED = 0 ]]
 
 after_success:
-  - coveralls --include src -x .c -x .cpp
+  - coveralls --include src -x .c -x .cpp -x .f90
 
 # ----------------------------------------
 # Travis settings:
