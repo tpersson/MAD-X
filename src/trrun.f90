@@ -2911,7 +2911,10 @@ subroutine ttrfloss(turn, sum, part_id, last_turn, last_pos, last_orbit, z, ntrk
   do i = n, ntrk
 
      !---- Is particle outside the bucket?
-     if (ISNAN(z(5,i)) .or. ISNAN(z(6,i))) goto 99
+     if (ISNAN(z(5,i)) .or. ISNAN(z(6,i))) then
+     non_app = "T or PT is NaN, before element"
+     goto 99
+     endif
      if (abs(z(5,i)).gt.t_max .or. abs(z(6,i)).gt.pt_max) goto 99
      ! if particle is inside aperture, stop treatment and continue the loop
      cycle
