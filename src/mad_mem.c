@@ -19,7 +19,7 @@ void*
 (myptrchk)(const char *type, const char *caller, long sz, void *ptr)
 {
 #ifdef DEBUG_MEM
-  printf("MEMDBG[%s]: '%s' 0x%p [%ld]\n", caller, type, ptr, sz);
+  printf("MEMDBG[%-30s]:  '%s' 0x%p  [% 6ld]\n", caller, type, ptr, sz);
 #endif
 
   if (!ptr && sz)
