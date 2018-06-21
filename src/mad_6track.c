@@ -2337,7 +2337,6 @@ pro_elem(struct node* cnode)
 /* converts MADX linked list to c6t internal linked list */
 {
   int i;
-  char t_key[KEY_LENGTH];
   struct c6t_element *tag_element, *tmp_element;
   double tmp_vk,tmp_hk;
 
@@ -2370,8 +2369,9 @@ pro_elem(struct node* cnode)
   current_element->occ_cnt = cnode->occ_cnt;
   if (cnode->occ_cnt > 1)  /* add occurence count to name */
   {
+    char t_key[KEY_LENGTH+10];
     snprintf(t_key, sizeof t_key, "%.45s+%d", current_element->name,cnode->occ_cnt);
-    strcpy(current_element->name, t_key);
+    strncpy(current_element->name, t_key, KEY_LENGTH);
   }
   current_element->position = cnode->position;
 
@@ -3131,13 +3131,13 @@ write_f3_matrix(void)
 {
   int i, i_max = 43, dim=6;
   current_element = first_in_sequ;
-  
-  
+
+
   double beta, value;
 
- 
+
   beta= get_value("beam ","beta ");
- 
+
   if (!f3) f3 = fopen("fc.3", "w");
 
   while (current_element != NULL)
@@ -3146,10 +3146,10 @@ write_f3_matrix(void)
     {
       fprintf(f3,"TROM\n");
       fprintf(f3,"%-48s\n",current_element->name);
-    
+
       for (i = 1; i < i_max; i++) {
         value=current_element->value[i];
-        // The if statemenst are to go from pt to psigma and from t to sigma.     
+        // The if statemenst are to go from pt to psigma and from t to sigma.
         if((i+1)%dim==0){
           value=value/beta;
         }
@@ -3162,8 +3162,8 @@ write_f3_matrix(void)
         if(i>(dim+30) && i < (37+dim)){
           value = value/beta;
         }
-        
-    
+
+
 
         fprintf(f3,"%23.15e", value);
         if (i%3 == 0) fprintf(f3,"\n");
@@ -3323,7 +3323,7 @@ write_struct(void)
     {
       fprintf(f2, "%-17s ", name);
     }
-    
+
     p = p->next;
   }
   if (lc > 0)
@@ -3466,7 +3466,7 @@ c6t_init(void)
   aperture_flag = 0;   /* if 1 insert apertures into structure */
   cavall_flag = 0;     /* if 0 dump all cavities into first */
   markall_flag = 0;    /* if 0 dump all marker into first */
-  long_names_flag = 0; 
+  long_names_flag = 0;
 //  radius_flag = 0; // not used    /* change the default reference radius */
   split_flag = 0;      /* if 1 keep zero multipoles after split */
   mangle_flag = 0;     /* if 1 truncate to 14 chars and mangle names */
