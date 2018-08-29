@@ -2182,7 +2182,7 @@ element* SeqElList::create_sliced_magnet(const element* thick_elem, int slice_no
       if(kn_pars[0]->expr) k0val=my_get_expression_value(kn_pars[0]->expr);
       else k0val=kn_pars[0]->double_value;
       if(verbose>1) std::cout << __FILE__<< " " << __FUNCTION__ << " line " << std::setw(4) << __LINE__ << " angleval=" << angleval << " k0val=" << k0val << " lenval=" << lenval << " k0val*lenval=" << k0val*lenval << std::endl;
-      if( fabs(k0val)>0 && fabs(k0val*lenval-angleval)>eps )
+      if(fabs(k0val*lenval-angleval)>eps )
       { // both angle and k0 with different information
         if(verbose>1) std::cout << __FILE__<< " " << __FUNCTION__ << " line " << std::setw(4) << __LINE__ << " angle and k0 both given and not equal, write also angle to multipole" << std::endl;
         multipole_angle_param=new_command_parameter("angle", k_double);
