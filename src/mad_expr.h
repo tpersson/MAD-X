@@ -39,7 +39,7 @@ struct expression* compound_expr(struct expression*, double v1, const char* oper
 double             expr_combine(struct expression*, double v1, const char* oper, struct expression*, double v2, struct expression**);
 double             expression_value(struct expression*, int flag); /* recursive */
 void               dump_expression(struct expression*);
-
+//double combine_expr_expr(struct expression*, const char* ,struct expression*, struct expression** );
 struct expr_list* new_expr_list(int length);
 struct expr_list* clone_expr_list(struct expr_list*);
 struct expr_list* delete_expr_list(struct expr_list*);

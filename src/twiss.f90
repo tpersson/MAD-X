@@ -2283,7 +2283,7 @@ SUBROUTINE tmsigma(s0mat)
   !     Purpose:                                                         *
   !     Calculation of sigma (beam) by Irina Tecker                      *
   !     Couling is also included into the calculation following          *
-  !     Lebedev's approach                                               *
+  !     Lebedev's approach  (by Tobias Persson)                          *
   !     Output:                                                          *
   !     sigma(6,6)  - initial sigma beam matrix                          *
   !                 = [(beta, -alpha) (-alpha, gamma)]                   *
@@ -3233,9 +3233,12 @@ SUBROUTINE tw_summ(rt,tt)
      sd = rt(5,6)
      sx = tt(1,1,6) + tt(2,2,6)
      sy = tt(3,3,6) + tt(4,4,6)
+     print *, "sxxxx", sx
 
      do i = 1, 4
         sd = sd + rt(5,i) * disp(i)
+        print *, "tt11",  tt(1,1,i) 
+        print *, "tt22",  tt(2,2,i)
         sx = sx + (tt(1,1,i) + tt(2,2,i)) * disp0(i)
         sy = sy + (tt(3,3,i) + tt(4,4,i)) * disp0(i)
      enddo
@@ -3269,7 +3272,7 @@ SUBROUTINE tw_summ(rt,tt)
      endif
 
   endif
-
+  print *, "This is chrom", xix
   !---- Initialization transverse
   !---  fix length problem - HG 14.4.08 ! ghislain : ???
   suml    = opt_fun(2)  ! ???
@@ -3521,7 +3524,7 @@ SUBROUTINE tmbend(ftrk,fcentre,orbit,fmap,el,dl,ek,re,te)
      tilt = g_elpar(b_tilt)
      e1 = g_elpar(b_e1)
      e2 = g_elpar(b_e2)
-
+     print *, "eee1", e1
      if (code .eq. code_rbend) then
         e1 = e1 + an / two
         e2 = e2 + an / two

@@ -178,6 +178,7 @@ enter_elm_reference(struct in_cmd* cmd, struct element* el, int flag)
   make_elem_node(el, k);
   current_node->at_value = at;
   current_node->at_expr = command_par_expr("at", cmd->clone);
+  printf("outtttttt %s", current_node->at_expr->string);
   const char* from = command_par_string_user("from", cmd->clone);
   if (from)
     current_node->from_name = permbuff(from);

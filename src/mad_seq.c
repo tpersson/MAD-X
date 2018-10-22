@@ -606,6 +606,7 @@ install_one(struct element* el, char* from_name, double at_value, struct express
   node->position = position;
   node->at_value = at_value;
   node->at_expr = at_expr;
+  dump_expression(node->at_expr);
   node->from_name = from_name;
   set_command_par_value("at", el->def, position);
   insert_elem(edit_sequ, node);
@@ -975,6 +976,7 @@ seq_install(struct in_cmd* cmd)
       seqedit_install++;
     }
   } else {
+    printf("laexpression, %s %s \n", expr->string, from_name);
     install_one(el, from_name, at, expr, at);
     seqedit_install++;
   }
@@ -990,6 +992,8 @@ seq_move(struct in_cmd* cmd)
   struct node *node, *next;
   struct element* el;
   int pos;
+
+
   name = command_par_string_user("element", cmd->clone);
   if (name)
   {
@@ -1036,6 +1040,7 @@ seq_move(struct in_cmd* cmd)
                 el = node->p_elem;
                 if (remove_one(node) > 0)
                 {
+
                   node = install_one(el, NULL, at, NULL, at);
                   node->moved = 1;
                   seqedit_move++;
@@ -1081,7 +1086,22 @@ seq_move(struct in_cmd* cmd)
         el = node->p_elem;
         if (remove_one(node) > 0)
         {
-          install_one(el, NULL, at, NULL, at);
+
+
+          struct expression* tmp = clone_expression(node->at_expr);
+          struct expression* expr = clone_expression(command_par_expr("by", cmd->clone));
+
+          printf("valllueess %f, %f \n", expression_value(tmp, 2), expression_value(tmp, 2));
+          
+       //   char_p = malloc(1 * sizeof *char_p);
+     //     char_p[0] = tmp->string;
+       //   struct expression* newexp =make_expression(1, char_p);
+        //          printf("valuesss %f, %d", at, newexp->status);
+        //  dump_expression(newexp);
+          //newexp->status=0;
+          struct expression* newexp = compound_expr(tmp, expression_value(tmp, 2), "+", expr, expression_value(expr, 2));
+          printf("valuesss %f, %d", at, newexp->status);
+          install_one(el, NULL, at, newexp, at);
           seqedit_move++;
         }
       }

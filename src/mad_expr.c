@@ -66,9 +66,11 @@ make_expression(int n, char** toks)
   /* makes an expression from a list of tokens */
 {
   struct expression* expr = NULL;
-
-  if (polish_expr(n, toks) == 0)
+  printf("makking expression %d", n);
+  if (polish_expr(n, toks) == 0){
+    printf("makking expression %d \n", n);
     expr = new_expression(join_b(toks, n), deco);
+  }
   else warning("Invalid expression starting at:", join_b(toks, n));
   return expr;
 }
@@ -82,8 +84,10 @@ new_expression(const char* in_string, struct int_array* polish)
   ex->stamp = 123456;
   int len = strlen(in_string)+1;
   ex->string = mymalloc_atomic(rout_name, len * sizeof *ex->string);
+
   strcpy(ex->string, in_string);
-  if (watch_flag) fprintf(debug_file, "creating ++> %s\n", ex->name);
+ // printf("mystring %s \n", ex->string);
+ 
   if (polish != NULL) {
     ex->polish = new_int_array(polish->curr);
     ex->polish->curr = polish->curr;
