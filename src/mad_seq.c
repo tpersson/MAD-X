@@ -986,12 +986,15 @@ static void
 seq_move(struct in_cmd* cmd)
   /* executes move command */
 {
-  char *name, *from_name;
+  char *name, *from_name=NULL;
   double at, by, to, from = zero;
   int any = 0, k;
   struct node *node, *next;
   struct element* el;
   int pos;
+  struct expression* tmp = NULL; 
+  struct expression* expr = NULL;
+  struct expression* newexp = NULL;
 
 
   name = command_par_string_user("element", cmd->clone);
@@ -1038,10 +1041,13 @@ seq_move(struct in_cmd* cmd)
               {
                 at = node->position + by;
                 el = node->p_elem;
+                tmp = clone_expression(node->at_expr);
+                expr = clone_expression(command_par_expr("by", cmd->clone));
+                newexp = compound_expr(tmp, expression_value(tmp, 2), "+", expr, expression_value(expr, 2));
+                                
                 if (remove_one(node) > 0)
                 {
-
-                  node = install_one(el, NULL, at, NULL, at);
+                  install_one(el, NULL, at, newexp, at);
                   node->moved = 1;
                   seqedit_move++;
                 }
@@ -1066,42 +1072,40 @@ seq_move(struct in_cmd* cmd)
             warning("no position given,", "ignored"); return;
           }
           to = command_par_value("to", cmd->clone);
+          
           from_name = command_par_string_user("from", cmd->clone);
           if (from_name)
           {
-            if ((from = hidden_node_pos(from_name, edit_sequ)) == INVALID)
+            
+            
+            if ((from = hidden_node_pos(from_name, edit_sequ)) == INVALID )
             {
               warning("ignoring 'from' reference to unknown element:",
                       from_name);
               return;
             }
-          }
+            if(strcmp(from_name, name)==0){
+              warning("you are reference 'FROM' same element -> impossible positioning", from_name);
+              return;
+            }
+            newexp = clone_expression(command_par_expr("to", cmd->clone));
+            dump_expression(newexp);
+          }  
           at = to + from;
         }
         else
         {
           by = command_par_value("by", cmd->clone);
           at = node->position + by;
+          tmp = clone_expression(node->at_expr);
+          expr = clone_expression(command_par_expr("by", cmd->clone));
+          newexp = compound_expr(tmp, expression_value(tmp, 2), "+", expr, expression_value(expr, 2));
+
         }
         el = node->p_elem;
         if (remove_one(node) > 0)
         {
-
-
-          struct expression* tmp = clone_expression(node->at_expr);
-          struct expression* expr = clone_expression(command_par_expr("by", cmd->clone));
-
-          printf("valllueess %f, %f \n", expression_value(tmp, 2), expression_value(tmp, 2));
-          
-       //   char_p = malloc(1 * sizeof *char_p);
-     //     char_p[0] = tmp->string;
-       //   struct expression* newexp =make_expression(1, char_p);
-        //          printf("valuesss %f, %d", at, newexp->status);
-        //  dump_expression(newexp);
-          //newexp->status=0;
-          struct expression* newexp = compound_expr(tmp, expression_value(tmp, 2), "+", expr, expression_value(expr, 2));
-          printf("valuesss %f, %d", at, newexp->status);
-          install_one(el, NULL, at, newexp, at);
+          install_one(el, from_name, at, newexp, at);
           seqedit_move++;
         }
       }
