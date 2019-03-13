@@ -18,12 +18,18 @@
 <h3>MAD-X release 5.04.03 (2019.02.06)</h3>
 <h4>Backward incompatibilties with previous releases</h4>
 <ul>
-
-<li> 
+<li> The translate command now only takes x,y,z and works as a virtual drift.  
+     <a target="_blank" href="http://github.com/MethodicalAcceleratorDesign/MAD-X/pull/720">#730</a>. (Tobias)
+<li> The direction of the y-rotation in survey has been changed.   
+     <a target="_blank" href="http://github.com/MethodicalAcceleratorDesign/MAD-X/pull/720">#729</a>. (Tobias, Laurent) 
 </ul>
 
 <h4>Bug Fixes</h4>
 <ul>
+<li> Fixes a bug that converted a defined aperture to 0 if no values was given.
+     <a target="_blank" href="http://github.com/MethodicalAcceleratorDesign/MAD-X/pull/736">#736</a>. (Tobias)
+<li> SXF writes now also outputs frequency of an RF-cavity.  
+     <a target="_blank" href="http://github.com/MethodicalAcceleratorDesign/MAD-X/pull/734">#734</a>. (Tobias)
 <li> Fixed a problem with readtable/write tables.  
      <a target="_blank" href="http://github.com/MethodicalAcceleratorDesign/MAD-X/pull/720">#720</a>. (Laurent)
 <li> MKTHIN was previously disregarding disregards E1 and E2 of RBEND.   
@@ -40,6 +46,16 @@
 
 <h4>Added features/checks/functionalities</h4>
 <ul>
+<li> A new version of makethin. 
+     <a target="_blank" href="http://github.com/MethodicalAcceleratorDesign/MAD-X/pull/743">#743</a>. (Thomas)
+ <li> Adds the functionality to change directory from inside MAD-X. 
+     <a target="_blank" href="http://github.com/MethodicalAcceleratorDesign/MAD-X/pull/741">#741</a>. (Thomas)
+ <li> Adds the functionality to update the children based on the change of the parent element.
+     <a target="_blank" href="http://github.com/MethodicalAcceleratorDesign/MAD-X/pull/733">#733</a>. (Tobias)
+ <li> Error tables can be now be extracted interally using ETABLE.
+     <a target="_blank" href="http://github.com/MethodicalAcceleratorDesign/MAD-X/pull/714">#725</a>. (Tobias)
+<li> A new garbage collector (8.0.2).
+     <a target="_blank" href="http://github.com/MethodicalAcceleratorDesign/MAD-X/pull/714">#722</a>. (Thomas)
 <li> Added conversion of the generalized RF-multipoles.
      <a target="_blank" href="http://github.com/MethodicalAcceleratorDesign/MAD-X/pull/714">#714</a>. (Tobias)
 <li> Added support for thick RBEND in TRACK.
