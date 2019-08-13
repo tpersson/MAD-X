@@ -128,7 +128,6 @@ module aperture_enums
   integer, parameter :: ap_custom = 8
 
 end module aperture_enums
-
 module track_enums
   implicit none
   public
@@ -137,7 +136,13 @@ module track_enums
   integer, parameter :: enum_noise = 3
   integer, parameter :: enum_angle = 4
   integer, parameter :: enum_time_var = 5
-  integer, parameter :: total_enums = 5
+  integer, parameter :: enum_sinkick = 6
+  integer, parameter :: enum_kick = 7
+  integer, parameter :: enum_chkick = 8
+  integer, parameter :: enum_cvkick = 9
+  integer, parameter :: enum_hkick = 10 
+  integer, parameter :: enum_vkick = 11  
+  integer, parameter :: total_enums = 11
 end module track_enums
 module Inf_NaN_Detection
 

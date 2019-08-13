@@ -327,6 +327,10 @@ node_value(const char* par)
   else value =  element_value(current_node, lpar);
   return value;
 }
+double node_obs_point(void){
+  return current_node->obs_point;
+}
+
 void set_tt_multipoles(int *maxmul){
   int tmp_n, tmp_s;
   double tmp_nv[*maxmul] ;

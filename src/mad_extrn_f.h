@@ -84,6 +84,7 @@
 #define inside_userdefined_geometry inside_userdefined_geometry_
 #define node_aperture_vector node_aperture_vector_
 #define node_aperture_offset node_aperture_offset_
+#define node_obs_point node_obs_point_
 
 #define alloc_tt_attrib alloc_tt_attrib_
 #define set_tt_attrib set_tt_attrib_

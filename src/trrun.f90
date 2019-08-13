@@ -86,7 +86,7 @@ subroutine trrun(switch, turns, orbit0, rt, part_id, last_turn, last_pos, &
 !-------------------------------------------------------------------
 
   integer, external :: restart_sequ, advance_node, get_option, node_al_errors
-  double precision, external :: node_value, get_variable, get_value 
+  double precision, external :: node_value, get_variable, get_value, node_obs_point
   external :: set_tt_attrib, alloc_tt_attrib, set_tt_multipoles, get_tt_multipoles
 
   ! 2015-Jul-08  19:16:53  ghislain: make code more readable
@@ -131,6 +131,20 @@ subroutine trrun(switch, turns, orbit0, rt, part_id, last_turn, last_pos, &
      call set_tt_attrib(enum_time_var, node_value('time_var '))
      call set_tt_multipoles(maxmul)
     endif
+
+    if(code.eq.code_hkicker .or. code.eq.code_vkicker .or. &
+      code.eq.code_kicker .or.  code.eq.code_tkicker) then
+      call alloc_tt_attrib(total_enums)
+      call set_tt_attrib(enum_other_bv, node_value('other_bv '))
+      call set_tt_attrib(enum_sinkick, node_value('sinkick '))
+      call set_tt_attrib(enum_kick, node_value('kick '))
+      call set_tt_attrib(enum_chkick, node_value('chkick '))
+      call set_tt_attrib(enum_cvkick, node_value('chkick '))
+      call set_tt_attrib(enum_hkick, node_value('hkick '))
+      call set_tt_attrib(enum_vkick, node_value('vkick '))
+    endif 
+    
+
 
     if (advance_node() .eq. 0)  exit
 
@@ -497,7 +511,7 @@ subroutine trrun(switch, turns, orbit0, rt, part_id, last_turn, last_pos, &
 
            el = node_value('l ')
            theta = node_value('tilt ')
-       theta_buf(nlm+1) = theta
+           theta_buf(nlm+1) = theta
            code_buf(nlm+1) = code
            l_buf(nlm+1) = el
            !param(nlm+1, enum_bvk) = 
@@ -531,7 +545,7 @@ subroutine trrun(switch, turns, orbit0, rt, part_id, last_turn, last_pos, &
            theta = theta_buf(nlm+1)
         endif
 
-        if (run) nobs = node_value('obs_point ')
+        if (run) nobs = node_obs_point()
 
         !--------  Misalignment at beginning of element (from twissfs.f)
         if (code .ne. code_drift)  then
@@ -890,7 +904,7 @@ subroutine ttmap(switch,code,el,track,ktrack,dxt,dyt,sum,turn,part_id, &
        call ttxrot(track, ktrack)
 
     case (code_hkicker, code_vkicker, code_kicker, code_tkicker)
-       call ttcorr(el, track, ktrack, turn)
+       call ttcorr(el, track, ktrack, turn, code)
 
     !case (code_ecollimator)
     !   call fort_warn('TRRUN: ','found deprecated ECOLLIMATOR element; should be replaced by COLLIMATOR')
@@ -1018,12 +1032,9 @@ subroutine ttmult(track,ktrack,dxt,dyt,turn, thin_foc)
   !---- Multipole components.
   NORMAL(0:maxmul) = zero! ; call get_node_vector('knl ',nn,normal)
   SKEW(0:maxmul) = zero  ! ; call get_node_vector('ksl ',ns,skew)
-  !print *, normal, 'old way'
-  !NORMALT(0:maxmul) = zero 
+
   call get_tt_multipoles(nn,normal,ns,skew)
-  !call get_tt_multipoles(nnt,normalt,nst,skewt)
-  !print *, normal(1:5), "oooooo_old"
-  !print *, normalt(1:5), "oooooo_new"
+
 
   nd = 2 * max(nn, ns, n_ferr/2-1)
 
@@ -1752,11 +1763,12 @@ subroutine ttsep(track,ktrack)
 
 end subroutine ttsep
 
-subroutine ttcorr(el,track,ktrack,turn)
+subroutine ttcorr(el,track,ktrack,turn, code)
   use twtrrfi
   use trackfi
   use math_constfi, only : zero, one, two, three, twopi
   use code_constfi
+  use track_enums
   implicit none
   !----------------------------------------------------------------------*
   ! Purpose:                                                             *
@@ -1781,19 +1793,28 @@ subroutine ttcorr(el,track,ktrack,turn)
 
   integer :: node_fd_errors, get_option
   double precision :: get_variable, get_value, node_value
+  double precision :: external, get_tt_attrib
 
   !---- Initialize.
-  bvk = node_value('other_bv ')
-  deltas = get_variable('track_deltap ')
-  arad = get_value('probe ','arad ')
-  betas = get_value('probe ','beta ')
-  gammas = get_value('probe ','gamma ')
-  dtbyds = get_value('probe ','dtbyds ')
-  radiate = get_value('probe ','radiate ') .ne. zero
-  damp = get_option('damp ') .ne. 0
-  quantum = get_option('quantum ') .ne. 0
+        
+      
+  bvk = get_tt_attrib(enum_other_bv)
+  sinkick = get_tt_attrib(enum_sinkick)
+  
 
-  code = node_value('mad8_type ')
+  
+  !deltas = get_variable('track_deltap ')
+  
+  !arad = get_value('probe ','arad ')
+  !betas = get_value('probe ','beta ')
+  !gammas = get_value('probe ','gamma ')
+  !dtbyds = get_value('probe ','dtbyds ')
+  !radiate = get_value('probe ','radiate ') .ne. zero
+  
+  !damp = get_option('damp ') .ne. 0
+  !quantum = get_option('quantum ') .ne. 0
+
+  
 !  if (code .eq. code_tkicker)      code = code_kicker
   !if (code .eq. code_placeholder) code = code_instrument
 
@@ -1809,21 +1830,20 @@ subroutine ttcorr(el,track,ktrack,turn)
 
   select case (code)
     case (code_hkicker)
-       xkick = bvk*(node_value('kick ')+node_value('chkick ')+field(1)/div)
+       xkick = bvk*(get_tt_attrib(enum_kick)+get_tt_attrib(enum_chkick)+field(1)/div)
        ykick = zero
     case (code_kicker, code_tkicker)
-       xkick = bvk*(node_value('hkick ')+node_value('chkick ')+field(1)/div)
-       ykick = bvk*(node_value('vkick ')+node_value('cvkick ')+field(2)/div)
+       xkick = bvk*(get_tt_attrib(enum_hkick)+get_tt_attrib(enum_chkick)+field(1)/div)
+       ykick = bvk*(get_tt_attrib(enum_vkick)+get_tt_attrib(enum_cvkick)+field(2)/div)
     case (code_vkicker)
        xkick = zero
-       ykick = bvk*(node_value('kick ')+node_value('cvkick ')+field(2)/div)
+       ykick = bvk*(get_tt_attrib(enum_kick)+get_tt_attrib(enum_cvkick)+field(2)/div)
     case default
        xkick = zero
        ykick = zero
   end select
 
   !---- Sinusoidal kick (not supported by tkicker)
-  sinkick = node_value('sinkick ')
   if (sinkick .eq. 1) then
      sinpeak = node_value('sinpeak ')
      sintune = node_value('sintune ')
