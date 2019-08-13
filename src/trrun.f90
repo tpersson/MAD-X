@@ -115,6 +115,30 @@ subroutine trrun(switch, turns, orbit0, rt, part_id, last_turn, last_pos, &
   debug = get_option('debug ') .ne. 0
   thin_foc = get_option('thin_foc ').eq.1
 
+
+
+     j = restart_sequ()
+
+     do !---- loop over nodes
+
+        code    = node_value('mad8_type ')
+!        if (code .eq. code_tkicker)     code = code_kicker
+            if(code .eq. code_multipole) then
+             call alloc_tt_attrib(total_enums)
+             call set_tt_attrib(enum_other_bv, node_value('other_bv '))
+             call set_tt_attrib(enum_lrad, node_value('lrad '))
+             call set_tt_attrib(enum_noise, node_value('noise '))
+             call set_tt_attrib(enum_angle, node_value('angle '))
+             call set_tt_attrib(enum_time_var, node_value('time_var '))
+
+             call set_tt_multipoles(maxmul)
+        endif
+
+        if (advance_node() .eq. 0)  exit
+
+        j=j+1
+     end do !--- end of loop over nodes to set upt things
+
   !-------added by Yipeng SUN 01-12-2008--------------
   if (deltap .eq. zero) then
      onepass = get_option('onepass ') .ne. 0
@@ -478,16 +502,16 @@ subroutine trrun(switch, turns, orbit0, rt, part_id, last_turn, last_pos, &
 		       theta_buf(nlm+1) = theta
            code_buf(nlm+1) = code
            l_buf(nlm+1) = el
-           if(code .eq. code_multipole) then
-             call alloc_tt_attrib(total_enums)
-             call set_tt_attrib(enum_other_bv, node_value('other_bv '))
-             call set_tt_attrib(enum_lrad, node_value('lrad '))
-             call set_tt_attrib(enum_noise, node_value('noise '))
-             call set_tt_attrib(enum_angle, node_value('angle '))
-             call set_tt_attrib(enum_time_var, node_value('time_var '))
+           !if(code .eq. code_multipole) then
+           !  call alloc_tt_attrib(total_enums)
+           !  call set_tt_attrib(enum_other_bv, node_value('other_bv '))
+           !  call set_tt_attrib(enum_lrad, node_value('lrad '))
+           !  call set_tt_attrib(enum_noise, node_value('noise '))
+           !  call set_tt_attrib(enum_angle, node_value('angle '))
+           !  call set_tt_attrib(enum_time_var, node_value('time_var '))
 
-             call set_tt_multipoles(maxmul)
-           endif
+            ! call set_tt_multipoles(maxmul)
+           !endif
            if ((code.eq.code_sextupole .or. &
               code.eq.code_octupole .or. &
               code.eq.code_elseparator .or. &
