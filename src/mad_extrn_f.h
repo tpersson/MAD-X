@@ -85,6 +85,11 @@
 #define node_aperture_vector node_aperture_vector_
 #define node_aperture_offset node_aperture_offset_
 
+#define alloc_tt_attrib alloc_tt_attrib_
+#define set_tt_attrib set_tt_attrib_
+#define get_tt_attrib get_tt_attrib_
+#define set_tt_multipoles set_tt_multipoles_
+#define get_tt_multipoles get_tt_multipoles_
 // from mad_option.c
 #define get_option get_option_ // *
 #define set_option set_option_
@@ -270,7 +275,7 @@ void touschek_(void);
 void trrun_(F_INTEGER switch_, F_INTEGER turns, F_DOUBLE orbit0, F_DOUBLE rt, F_INTEGER part_id,
 	    F_INTEGER last_turn, F_DOUBLE last_pos, F_DOUBLE z, F_DOUBLE dxt, F_DOUBLE dyt,
 	    F_DOUBLE last_orbit, F_DOUBLE eigen, F_DOUBLE coords, F_INTEGER e_flag,
-	    F_INTEGER code_buf, F_DOUBLE l_buf);
+	    F_INTEGER code_buf, F_DOUBLE l_buf,  F_INTEGER nnode);
 
 // from twiss.f90
 void tmrefe_(F_DOUBLE rf);

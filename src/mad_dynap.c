@@ -88,7 +88,7 @@ track_dynap(struct in_cmd* cmd)
   buf11   = mymalloc_atomic(rout_name, turns   * sizeof *buf11);
 
   trrun_(&flag, &turns,orbit0, oneturnmat, ibuf1, ibuf2, buf1, buf2,
-         buf_dxt, buf_dyt, buf3, buf4, buf5, &e_flag, ibuf3, buf6);
+         buf_dxt, buf_dyt, buf3, buf4, buf5, &e_flag, ibuf3, buf6, &nnode);
 
   t = find_table("tracksumm");
   print_table(t);

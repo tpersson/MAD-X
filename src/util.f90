@@ -129,6 +129,16 @@ module aperture_enums
 
 end module aperture_enums
 
+module track_enums
+  implicit none
+  public
+  integer, parameter :: enum_other_bv = 1
+  integer, parameter :: enum_lrad = 2
+  integer, parameter :: enum_noise = 3
+  integer, parameter :: enum_angle = 4
+  integer, parameter :: enum_time_var = 5
+  integer, parameter :: total_enums = 5
+end module track_enums
 module Inf_NaN_Detection
 
   !!     Inf_NaN_Detection module

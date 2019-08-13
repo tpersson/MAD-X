@@ -4196,10 +4196,10 @@ SUBROUTINE tmmult(fsec,ftrk,orbit,fmap,re,te)
   rfac = zero
   F_ERRORS(0:maxferr) = zero
   n_ferr = node_fd_errors(f_errors)
-  bvk = node_value('other_bv ')
+  !bvk = node_value('other_bv ')
 
   !---- Multipole length for radiation.
-  elrad = node_value('lrad ')
+  !elrad = node_value('lrad ')
 
   bi = one / beta
 
@@ -4208,7 +4208,7 @@ SUBROUTINE tmmult(fsec,ftrk,orbit,fmap,re,te)
   !---- Multipole components.
   NORMAL = zero ; call get_node_vector('knl ',nn,normal)
   SKEW   = zero ; call get_node_vector('ksl ',ns,skew)
-  tilt = node_value('tilt ')
+  !tilt = node_value('tilt ')
 
   nd = 2 * max(nn, ns, n_ferr/2-1)
 
