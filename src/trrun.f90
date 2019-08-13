@@ -2579,7 +2579,7 @@ subroutine tt_ploss(npart,turn,spos,orbit,el_name,energy)
   tt = turn
 
 
-
+  energy = get_value('probe ','energy ')
   ! the number of the current particle
   call double_to_table_curr(table, 'number ', tn)
   ! the number of the current turn
