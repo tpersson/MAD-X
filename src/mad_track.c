@@ -42,7 +42,7 @@ track_observe(struct in_cmd* cmd)
   }
 }
 
-static void
+void
 track_run(struct in_cmd* cmd)
 {
   const char *rout_name = "track_run";
@@ -94,7 +94,7 @@ track_run(struct in_cmd* cmd)
   buf4    = mymalloc_atomic(rout_name, 36      * sizeof *buf4);
   buf6    = mymalloc_atomic(rout_name, nnode   * sizeof *buf6);
 
-
+  if (get_option("onepass") == -10){ 
   // run track rountine
   trrun_(&flag, &turns,orbit0, oneturnmat, ibuf1, ibuf2, buf1, buf2,
          buf_dxt, buf_dyt, buf3, buf4, &buf5, &e_flag, ibuf3, 
@@ -112,6 +112,10 @@ track_run(struct in_cmd* cmd)
   myfree(rout_name, buf_dxt); myfree(rout_name, buf_dyt);
   myfree(rout_name, buf1);    myfree(rout_name, buf2);  myfree(rout_name, buf3);
   myfree(rout_name, buf4);    myfree(rout_name, buf6);
+  }
+  else{
+    fasttrack();
+  }
 }
 
 static void

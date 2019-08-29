@@ -155,3 +155,25 @@ it works:
  This, however, does not modify \texttt{mb2}. In case we want \texttt{mb2} to also inherent the change from \texttt{mb} we need to use the
  flag \madxmp{option, update\_from\_parent}. This should be used with care and is only changing the direct parent.
 %% EOF
+
+\section{Common elements attribute}  
+\label{sec:common:elementes}
+These are attributes that are common to all elements and can be used to store information about the element. However, they have no impact on the optics or the beam. 
+\madbox{
+attribute: ELEMENTS, KMAX=real, KMIN=real,CALIB=real, POLARITY=real, SLOT_ID=integer \\
+ASSEMBLY_ID=integer, MECH_SEP=real, V_POS=real, TYPE=real, COMMENTS=string ;
+}
+
+
+kmax, never, not documented but output in twiss with index
+kmin, never, not documented but output in twiss with index
+calib, never, not documented but output in twiss with index
+polarity, never, not documented but output in twiss with index
+slot_id, never, not documented but output in twiss and survey (not from index)
+assembly_id, never, not documented but output in twiss and survey(not from index)
+mech_sep, never, but output in twiss and survey(not from index)
+v_pos, never, ut output in twiss and survey(not from index)
+type, never, was used but commented out 
+comments, all, not documented
+
+apertype,aper_offset, aper_tol, aperture, all without drift and matrix
