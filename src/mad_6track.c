@@ -1280,6 +1280,42 @@ convert_madx_to_c6t(struct node* p)
     c6t_elem->value[6] = el_par_value_recurse("tilt",p->p_elem);
     c6t_elem->value[10] = el_par_value_recurse("angle",p->p_elem);
     c6t_elem->value[11] = el_par_value_recurse("lrad",p->p_elem);
+
+
+    if(ks_param->double_array->a[0]!=0){
+      if(kn_param->double_array->a[0]!=0) fatal_error("Not possible to convert a diagonal bending multipole to SixTrack: ",t_name);
+      if(c6t_elem->value[10]!=0) warning("Angle is only defined for horizontal multipole", t_name);
+
+    kn_param->double_array->a[0] = ks_param->double_array->a[0];
+    ks_param->double_array->a[0] =0;
+    double angle;
+    double mmult;   
+    if(maxkn >=maxks) mmult = maxkn;
+    else mmult = maxks;
+    for(int i=1; i<mmult; i++){
+      if(ks_param->double_array->a[i]!= 0){
+      
+      angle = atan(ks_param->double_array->a[i]/kn_param->double_array->a[i])/(i+1) + pi/2;
+      
+      }
+      else{
+        angle = pi/2;
+      }
+      angle = angle*(i+1);
+      printf("sixaaaaaaa %f \n", angle);
+      double amp = sqrt(pow(ks_param->double_array->a[i],2)+pow(kn_param->double_array->a[i],2));
+    //  printf("sixtrackoutttttt ammmm %f \n", amp);
+      
+      kn_param->double_array->a[i] = amp*cos(angle);
+      ks_param->double_array->a[i] = amp*sin(angle);
+        printf("sixtrackoutttttt %f, %f %d, \n" , kn_param->double_array->a[i], ks_param->double_array->a[i], i);
+    }
+
+    c6t_elem->value[6] = c6t_elem->value[6] - pi/2; 
+
+
+    }
+    
     for (i=0; i<j; i++)
     {
       if (i<maxkn) c6t_elem->value[i*2+12] = kn_param->double_array->a[i];

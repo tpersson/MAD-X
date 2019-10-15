@@ -4255,18 +4255,26 @@ SUBROUTINE tmmult(fsec,ftrk,orbit,fmap,re,te)
   enddo
 
   do iord = 1, nord
+
      f_errors(2*iord)   = (normal(iord) + f_errors(2*iord))   / (one + deltap)
      f_errors(2*iord+1) = (skew(iord)   + f_errors(2*iord+1)) / (one + deltap)
+     
+     
+     
      if (tilt .ne. zero) then
+     print *, "beeffffffore", f_errors(2*iord), f_errors(2*iord+1), iord
         if (f_errors(2*iord).ne.zero .or. f_errors(2*iord+1).ne.zero) then
            angle = atan2(f_errors(2*iord+1), f_errors(2*iord)) / (iord+1) - tilt
+
         else
            angle = -tilt
         endif
         angle = (iord+1) * angle
+        print *, "twisaaaaaaa", angle
         dtmp = sqrt(f_errors(2*iord)**2 + f_errors(2*iord+1)**2)
         f_errors(2*iord)   = dtmp * cos(angle)
         f_errors(2*iord+1) = dtmp * sin(angle)
+        print *, "afffffffffore", f_errors(2*iord), f_errors(2*iord+1), iord
      endif
      f_errors(2*iord)   = bvk * f_errors(2*iord)
      f_errors(2*iord+1) = bvk * f_errors(2*iord+1)
