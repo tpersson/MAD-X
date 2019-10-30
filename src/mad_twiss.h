@@ -19,5 +19,6 @@ void  copy_twiss_data(double* twiss_data, int* offset, int* nval, int* interp_in
 void  complete_twiss_table(struct table*);
 int   embedded_twiss(void);
 void print_eigenvectors_(double *eigenvectors);
+void print_oneturnmap_(double *oneturnmap);
 #endif // MAD_TWISS_H
 

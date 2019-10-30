@@ -2427,8 +2427,10 @@ SUBROUTINE tmsigma_emit(rt, s0mat)
   
   saveig = get_value('twiss ','eigenvector ').ne.zero
   if(saveig) then
-    tmp_e = RESHAPE(em, shape(tmp_e))
+    tmp_e = RESHAPE(transpose(em), shape(tmp_e))
     call print_eigenvectors(tmp_e)
+    tmp_e = RESHAPE(transpose(rt), shape(tmp_e))
+    call print_oneturnmap(tmp_e)
   end if
   
   do j = 1, 6
