@@ -1,5 +1,7 @@
 #include "madx.h"
-
+#include "../libs/DISTlib/source/distinterface.h"
+//#include "../libs/DISTlib/source/distinterface.h"
+//#include "../libs/DISTlib/source/distinterface.c"
 // private functions
 
 static void
@@ -80,7 +82,8 @@ track_run(struct in_cmd* cmd)
                               emptying does not work because different number of particles*/
     track_tables_create(cmd);
   }
-
+  initializedistribution(2);
+  printf("heeeeeeree"); 
   /* allocate buffers */
   int nnode = current_sequ->n_nodes;
   ibuf1   = mymalloc_atomic(rout_name, npart   * sizeof *ibuf1);

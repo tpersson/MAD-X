@@ -28,7 +28,7 @@ endif()
 
 include(setupCompilerSpecifics)
 include(setupArchSpecifics)
-
+add_subdirectory(libs/DISTlib/)
 add_subdirectory(libs/ptc)
 add_subdirectory(src)
 add_subdirectory(tools)

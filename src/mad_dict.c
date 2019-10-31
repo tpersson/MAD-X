@@ -987,7 +987,12 @@ const char *const_command_def =
 "minimizeparents = [l, true, false], " /*hbu */
 "makeendmarkers = [l, false, true],  " /*hbu */
 "moreexpressions = [i, 1]; " /*hbu */
-
+" "
+"distribution: distribution none 0 0 "
+"npart       = [i, -1], "
+"horiontal    =  [s, gaussian, gaussian], "
+"vertical     =  [s, gaussian, gaussian], "
+"longitudinal =  [s, gaussian, gaussian]; "
 " "
 "survey: survey none 0 0 "
 "x0       = [r, 0],   y0     = [r, 0], z0       = [r, 0], "
