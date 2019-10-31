@@ -990,7 +990,7 @@ const char *const_command_def =
 " "
 "distribution: distribution none 0 0 "
 "npart       = [i, -1], "
-"horiontal    =  [s, gaussian, gaussian], "
+"horizontal    =  [s, gaussian, gaussian], "
 "vertical     =  [s, gaussian, gaussian], "
 "longitudinal =  [s, gaussian, gaussian]; "
 " "

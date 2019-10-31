@@ -691,6 +691,18 @@ const char* const track_table_cols[] =
   " "  /* blank terminates */
 };
 
+const char* const dist_table_cols[] =
+{
+  "number", "x", "px", "y", "py", "t", "pt",
+  " "  /* blank terminates */
+};
+
+const int dist_table_types[] =
+{
+  1, 1, 2, 2, 2, 2, 2, 2
+};
+
+
 const int track_table_cols_len = sizeof track_table_cols / sizeof track_table_cols[0];
 
 const int tracksumm_table_types[] =

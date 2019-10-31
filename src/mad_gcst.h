@@ -94,6 +94,8 @@ extern const char* const track_table_cols[];
 extern const int         track_table_cols_len;
 extern const int         tracksumm_table_types[];
 extern const char* const tracksumm_table_cols[];
+extern const int         dist_table_types[];
+extern const char* const dist_table_cols[];
 extern const int         ptcnodetrack_table_types[];
 extern const char* const ptcnodetrack_table_cols[];
 

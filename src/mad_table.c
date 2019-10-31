@@ -548,6 +548,7 @@ set_selected_rows(struct table* t, struct command_list* select, struct command_l
 struct table*
 new_table(const char* name, const char* type, int rows, struct name_list* cols)
 {
+  printf("rrrrrrrowwwwwwwws %d", rows);
   const char *rout_name = "new_table";
   int i, n = cols->curr;
   struct table* t = mycalloc(rout_name, 1, sizeof *t);
@@ -570,6 +571,7 @@ new_table(const char* name, const char* type, int rows, struct name_list* cols)
   t->row_out = new_int_array(rows);
   t->col_out = new_int_array(n);
   t->node_nm = new_char_p_array(rows);
+  printf(" \n rrrrrrrowwwwwwww2s %d \n", rows);
   t->p_nodes = mycalloc(rout_name, rows, sizeof *t->p_nodes);
   t->l_head  = mycalloc(rout_name, rows, sizeof *t->l_head);
   return t;
@@ -831,11 +833,11 @@ augment_count(const char* table) /* increase table occ. by 1, fill missing */
     warning("Can not find table",table);
     return;
   }
-
+  printf("aaaaaa \n");
   if (strcmp(t->type, "twiss") == 0) complete_twiss_table(t);
 
   if (t->num_cols > t->org_cols)  add_vars_to_table(t,1);
-
+printf("aaaaaa end \n");
   if (t->p_nodes != NULL)
     t->p_nodes[t->curr] = current_node->master ? current_node->master : current_node;
 
@@ -845,6 +847,7 @@ augment_count(const char* table) /* increase table occ. by 1, fill missing */
     t->node_nm->curr = t->curr;
   }
   if (++t->curr == t->max) grow_table(t);
+    
 }
 
 void
@@ -1025,7 +1028,7 @@ void
 grow_table(struct table* t) /* doubles number of rows */
 {
   const char *rout_name = "grow_table";
-  int i, j, new = 2*t->max;
+  int i, j, new = (2*t->max+1);
   char** s_loc;
   struct char_p_array* t_loc = t->node_nm;
   double* d_loc;
