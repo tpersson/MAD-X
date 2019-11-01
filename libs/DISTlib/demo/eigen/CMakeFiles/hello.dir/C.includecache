@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/tobias/codes/DISTlib/source/feigen.c
+math.h
+-
+float.h
+-
+stdio.h
+-
+stdlib.h
+-
+complex.h
+-
+

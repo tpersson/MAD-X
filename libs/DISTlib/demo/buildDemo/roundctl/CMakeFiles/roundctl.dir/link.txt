@@ -1,0 +1,2 @@
+/opt/rh/devtoolset-7/root/usr/bin/ar qc libroundctl.a  CMakeFiles/roundctl.dir/round_near.c.o CMakeFiles/roundctl.dir/dtoa_c.c.o CMakeFiles/roundctl.dir/dtoaf.c.o CMakeFiles/roundctl.dir/enable_xp.c.o CMakeFiles/roundctl.dir/disable_xp.c.o
+/opt/rh/devtoolset-7/root/usr/bin/ranlib libroundctl.a
