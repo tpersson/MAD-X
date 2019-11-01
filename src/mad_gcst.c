@@ -699,7 +699,7 @@ const char* const dist_table_cols[] =
 
 const int dist_table_types[] =
 {
-  1, 1, 2, 2, 2, 2, 2, 2
+  1, 2, 2, 2, 2, 2, 2
 };
 
 
