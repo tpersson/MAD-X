@@ -6,6 +6,26 @@
 
 #IncludeRegexTransform: 
 
+/home/tobias/codes/MAD-X/libs/DISTlib/source/distgeneration.c
+stdio.h
+-
+stdlib.h
+-
+math.h
+-
+string.h
+-
+helper.h
+/home/tobias/codes/MAD-X/libs/DISTlib/source/helper.h
+distgeneration.h
+/home/tobias/codes/MAD-X/libs/DISTlib/source/distgeneration.h
+distinterface.h
+/home/tobias/codes/MAD-X/libs/DISTlib/source/distinterface.h
+outputdist.h
+/home/tobias/codes/MAD-X/libs/DISTlib/source/outputdist.h
+file_reader.h
+/home/tobias/codes/MAD-X/libs/DISTlib/source/file_reader.h
+
 /home/tobias/codes/MAD-X/libs/DISTlib/source/distgeneration.h
 
 /home/tobias/codes/MAD-X/libs/DISTlib/source/distinterface.c
@@ -30,9 +50,69 @@ file_reader.h
 
 /home/tobias/codes/MAD-X/libs/DISTlib/source/distinterface.h
 
+/home/tobias/codes/MAD-X/libs/DISTlib/source/file_reader.c
+stdio.h
+-
+stdlib.h
+-
+math.h
+-
+string.h
+-
+ctype.h
+-
+helper.h
+/home/tobias/codes/MAD-X/libs/DISTlib/source/helper.h
+distinterface.h
+/home/tobias/codes/MAD-X/libs/DISTlib/source/distinterface.h
+outputdist.h
+/home/tobias/codes/MAD-X/libs/DISTlib/source/outputdist.h
+file_reader.h
+/home/tobias/codes/MAD-X/libs/DISTlib/source/file_reader.h
+distgeneration.h
+/home/tobias/codes/MAD-X/libs/DISTlib/source/distgeneration.h
+
 /home/tobias/codes/MAD-X/libs/DISTlib/source/file_reader.h
 
+/home/tobias/codes/MAD-X/libs/DISTlib/source/helper.c
+stdio.h
+-
+stdlib.h
+-
+math.h
+-
+string.h
+-
+ctype.h
+-
+helper.h
 /home/tobias/codes/MAD-X/libs/DISTlib/source/helper.h
+distinterface.h
+/home/tobias/codes/MAD-X/libs/DISTlib/source/distinterface.h
+distgeneration.h
+/home/tobias/codes/MAD-X/libs/DISTlib/source/distgeneration.h
+outputdist.h
+/home/tobias/codes/MAD-X/libs/DISTlib/source/outputdist.h
+
+/home/tobias/codes/MAD-X/libs/DISTlib/source/helper.h
+
+/home/tobias/codes/MAD-X/libs/DISTlib/source/outputdist.c
+stdio.h
+-
+stdlib.h
+-
+math.h
+-
+string.h
+-
+helper.h
+/home/tobias/codes/MAD-X/libs/DISTlib/source/helper.h
+distinterface.h
+/home/tobias/codes/MAD-X/libs/DISTlib/source/distinterface.h
+distgeneration.h
+/home/tobias/codes/MAD-X/libs/DISTlib/source/distgeneration.h
+outputdist.h
+/home/tobias/codes/MAD-X/libs/DISTlib/source/outputdist.h
 
 /home/tobias/codes/MAD-X/libs/DISTlib/source/outputdist.h
 

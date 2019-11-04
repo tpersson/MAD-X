@@ -103,8 +103,15 @@ void settasmatrix(double *tas){
 	}
 }
 
+void settasmatrixtranspose(double *tas){
+    for(int i =0; i<dim; i++){
+        for(int j =0; j<dim; j++){
+            dist->tas[j][i] = tas[j+i*dim];
+        }
+    }
+}
+
 void setactionanglecut(int variable, double min, double max){
-    printf("seettingiggttt \n");
     dist->cuts2apply->isset_a=1;
     dist->cuts2apply->action[variable]->min=min;
     dist->cuts2apply->action[variable]->max=max;

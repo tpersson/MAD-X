@@ -22,6 +22,7 @@ void sete0andmass0(double energy0, double mass0);
 void setemitt12(double e1, double e2);
 void setemitt3(double e3);
 void settasmatrix(double * tas);
+void settasmatrixtranspose(double *tas);
 void setcoords(double *xn, double *xnp, double *yn, double *ynp, double *zn, double *znp, int totparticles, int coordtype);
 void get6trackcoord(double *x, double *xp, double *y, double *yp, double *sigma, double *deltap, int *totparticles);
 void setscan_para_diagonal(int variable, int variable_type, int type, double start, double stop);

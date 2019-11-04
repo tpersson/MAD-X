@@ -181,9 +181,8 @@ int particle_within_limits_physical(double *physical){
 
 int particle_with_limits_action(int i, double value){
     
-    printf("iiiiiii %d \n", dist->cuts2apply->action[i]->isset);
     if(dist->cuts2apply->action[i]->isset==1){
-    
+    printf("iiiiiii %d \n", dist->cuts2apply->action[i]->isset);
         if(value > pow(dist->cuts2apply->action[i]->min,2) && value < pow(dist->cuts2apply->action[i]->max,2)) return 1;
         else return 0;
     }
@@ -219,7 +218,7 @@ void createcoordinates(int index,  double start, double stop, int length, int ty
     else if(type==1){ //Linearly spaced intervalls
 		createLinearSpaced(length, start, stop, temp);
         for(int i=0;i <length; i++){
-            dist->incoord[i]->coord[index] = exp(temp[i]);
+            dist->incoord[i]->coord[index] = temp[i];
         }     
     }
     else if(type==2){ //Exponentially spaced
