@@ -314,3 +314,29 @@ int writefile_f(const char*  filename_in, int strlen){
     filename[strlen] = '\0';
     print2file(filename);
 }
+
+void free_distribution(int i){
+
+    free((dist+i)->closedorbit);
+    free((dist+i)->tas);
+    free((dist+i)->invtas);
+
+    for(int j=0; j<dim; j++)
+    {
+        free((dist + i)->cuts2apply->physical[j]) ;
+        free((dist + i)->cuts2apply->normalized[j]) ;
+        free((dist + i)->cuts2apply->action[j]) ;
+        free((dist +i)->coord[j]);
+    }
+    free((dist+i)->coord);
+    free((dist + i)->cuts2apply->physical);
+    free((dist + i)->cuts2apply->normalized);
+    free((dist + i)->cuts2apply->action);
+    free((dist + i)->cuts2apply);
+    
+    free((dist + i)->ref);
+    free((dist + i)->emitt);
+    free(dist+i);
+
+
+}

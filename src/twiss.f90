@@ -2406,7 +2406,7 @@ SUBROUTINE tmsigma_emit(rt, s0mat)
   !----------------------------------------------------------------------*
   double precision, intent(IN)  :: rt(6,6)
   double precision :: ex, ey, et, em(6,6), s0mat(6,6), tmp_e(36)
-  double precision :: reval(6), aival(6) ! re and im parts
+  double precision :: reval(6), aival(6), e0mat(6,6) ! re and im parts
   double precision, external :: get_value
   logical, external :: m66sta
   external :: print_eigenvectors
@@ -2437,12 +2437,20 @@ SUBROUTINE tmsigma_emit(rt, s0mat)
     do k = 1, 6
       s0mat(j,k) = ex * (em(j,1)*em(k,1) + em(j,2)*em(k,2)) + &
                    ey * (em(j,3)*em(k,3) + em(j,4)*em(k,4))
+      e0mat(j,k) = 0
       !---- Solve for dynamic case
       if (.not.m66sta(rt)) then
         s0mat(j,k) = s0mat(j,k) + et * (em(j,5)*em(k,5) + em(j,6)*em(k,6))
       endif
     enddo
   enddo
+  e0mat = 0
+  e0mat(1,1) = ex
+  e0mat(2,2) = ex
+  e0mat(3,3) = ey 
+  e0mat(4,4) = ey 
+  !s0mat = transpose(em)*e0mat*em
+  !s0mat = transpose(em)
 END SUBROUTINE tmsigma_emit
 
 SUBROUTINE twcptk_twiss_new(matx, maty, error)
