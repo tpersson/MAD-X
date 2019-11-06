@@ -1,0 +1,139 @@
+\section{DISTRIBUTION}
+\label{sec:track}
+
+The \texttt{DISTRIBUTION} creates a distribution based on the last TWISS.  
+
+
+\madbox{
+xxxxxxx\= \kill
+TRACK, \>HORIZONTAL=string, VERTICAL=string, LONGITUDINAL=string; \\
+       \>CUTSIG_H=\{real, real \}, CUTSIG_V=\{real, real \}, CUTSIG_L=\{real, real \}, \\
+       \>NPART=real, ORBIT=LOGICAL, FILE=filename;
+}
+
+The attributes of the DISTRIBUTION command are:
+
+\begin{madlist}
+  \ttitem{DELTAP} relative momentum offset for reference closed orbit (switched
+  off for \texttt{ONEPASS}) \\  
+  Defining a non-zero \texttt{DELTAP} results in a change of the beam
+  momentum/energy without changing the magnetic properties in the
+  sequence, which leads to an off-momentum closed orbit different from
+  the on-momentum reference orbit. Particle coordinates are then given
+  with respect to this new closed orbit, unless the option
+  \texttt{ONEPASS=true} is used! \\  
+  (Default:~0.0)
+
+  \ttitem{ONEPASS} flag to ensure that no closed orbit search is done,
+  which also means that no stability test is done. This is always the
+  case for transfer lines, but this option can also be enabled for
+  multi-turn tracking of a circular machine. \texttt{ONEPASS=true} does
+  \textbf{NOT} restrict tracking to a single turn. \\
+  With \texttt{ONEPASS=true}, the particle coordinates are specified with
+  respect to the reference orbit. \\  
+  With \texttt{ONEPASS=false}, the closed orbit is calculated and the particle
+  coordinates are given with respect to the closed orbit coordinates.\\
+  This flag affects the behavior of the \hyperref[sec:option]{\texttt{BBORBIT}} flag. \\
+  The name of this attribute is misleading but was kept for backwards
+  compatibility.  \\ 
+  (Default:~false)
+
+  \ttitem{DAMP} flag to introduce synchrotron damping (needs RF cavity
+  and flag \texttt{RADIATE} in the \texttt{BEAM} command). \\ (Default:~false)
+
+  \ttitem{QUANTUM} flag to introduce quantum excitation via random
+  number generator and tables look-up (\texttt{SYNRAD} $=1$, see ref. \cite{roy1990}) or polynomial
+  interpolation (\texttt{SYNRAD} $=2$, see ref. \cite{hbu2007}) for photon emission.
+  The choice of the generator can be selected via the command
+  \hyperref[sec:option]{\texttt{OPTION}} attribute \texttt{SYNRAD}. \\ (Default:~2)
+
+  \ttitem{SEED} If \texttt{QUANTUM} is true, it selects a particular sequence of random values. 
+A \texttt{SEED} value is an integer in the range [0...999999999] (default:
+123456789). Note that the seed set with this command is shared with the \hyperref[sec:coption]{\texttt{COPTION}} and \hyperref[sec:coption]{\texttt{EOPTION}} commands. See also: \hyperref[subsubsec:random]{Random Values}.
+
+  \ttitem{DUMP} flag to write the particle coordinates in files, whose
+  names are generated automatically. \\ (Default:~false)
+
+  \ttitem{APERTURE} a logical flag to trigger aperture check at the entrance 
+  of each element (except \texttt{DRIFT}s). A particle is lost from the table of 
+  tracked particles if its position lies outside the aperture of the current 
+  element at the entrance of this element. \\ 
+  (Default:~false) \\
+  
+  The \hyperref[chap:aperture]{\texttt{APERTYPE}} and 
+  \hyperref[chap:aperture]{\texttt{APERTURE}} information of each element 
+  in the sequence is used to assess the particle loss. 
+  However \texttt{TRACK} only takes into account the predefined aperture 
+  types listed in table \ref{table:apertype}
+  \\
+  
+  Note that if no aperture information was specified for an element, 
+  the following procedure still takes place:
+  \\
+  $\rightarrow$ No aperture definition for element $\rightarrow$ 
+  Default apertype/aperture assigned (currently this is   
+  \texttt{APERTYPE=circle, APERTURE=\{0\}}) 
+  \\ $\rightarrow$  
+  If tracking with \texttt{APERTURE} is used and an
+  element with \texttt{APERTYPE=circle} AND \texttt{APERTURE=\{0\}}  
+  is encountered, then the first value of the \texttt{MAXAPER} vector
+  is assigned as the circle's radius (no permanent assignment!). 
+  See option \hyperref[sec:run]{\texttt{MAXAPER}} for the default values. 
+  \\ $\Rightarrow$
+  Hence even if no aperture information is specified by the user for
+  certain elements, default values will be used! 
+
+
+  \ttitem{ONETABLE} flag to write all particle coordinates in a single
+  file instead of one file per particle. \\ (Default:~false)
+
+  \ttitem{RECLOSS} flag to create in memory a table named "trackloss"
+  containing the coordinates of lost particles.\\
+  (Default:~false) \\
+  Traditionally, when a particle is lost on the aperture, this information
+  is written to stdout. To allow more flexible tracking studies, the
+  coordinates of lost particles and additional information can also be
+  saved in a table in memory. Usually one would save this table to a
+  file using the \texttt{WRITE} command after the tracking run has
+  finished. The following information is available in the TFS table
+  "trackloss":          
+  \begin{itemize}
+  \item Particle ID (number)
+  \item Turn number
+  \item Particle coordinates (x,px,y,py,t,pt)
+  \item Longitudinal position in the machine (s)
+  \item Beam energy
+  \item Element name, where the particle is lost
+  \end{itemize}
+
+  \ttitem{FILE} name for the track table. The default name is different
+  depending on the value of the \texttt{ONETABLE} attribute. \\ 
+  (Default: "track" if \texttt{ONETABLE=true}, "trackone" if \texttt{ONETABLE=false})
+
+  \ttitem{UPDATE} flag to trigger parameter update per turn. \\  
+  (Default:~false) \\
+  Specifying \texttt{UPDATE=true} gives access to the following additions:   
+  \begin{madlist}
+    \ttitem{tr\$turni} this special variable contains the turn number;
+    it can be used in expressions like \texttt{KICK := SIN(tr\$turni)} and is
+    updated at each turn during tracking.     
+    \ttitem{tr\$macro}  this special macro can be
+    user-defined and is executed/updated at each turn, during tracking.
+    A macro structure is necessary to provide for table access.
+    \textsl{e.g.} \\ 
+    \texttt{
+      tr\$macro(turn): macro=\{ \\
+      commands that can depend on the turnnumber;\\
+      \};
+    } 
+  \end{madlist}
+
+\end{madlist}
+
+\textbf{Remarks}\\
+\emph{IMPORTANT:} If an RF cavity has a non-zero voltage, synchrotron
+oscillations are automatically included. If tracking with constant
+momentum is desired, then the voltage of the RF cavities has to be set
+to zero. If an RF cavity has a no zero voltage and \texttt{DELTAP} is non zero, 
+tracking is done with synchrotron oscillations around an off-momentum
+closed orbit.
