@@ -161,7 +161,7 @@
       do j = 1, n
         xbest(j) = x(j)
       enddo
-
+      print *, strategy, "yyyyyy"
 !---- Check the input parameters for errors.
       if (n .lt. 0                                                      &
      &.or. ftol .lt. zero .or. xtol .lt. zero .or. gtol .lt. zero       &
@@ -173,6 +173,7 @@
 !---- Quit, when initial value is already OK
 !---- Do not apply for calculating jacobian
       if (strategy.ne.2) then
+
         if (fmin .le. ftol) then
           call fort_warn('JACOBIAN', ' penalty function already ok')
           go to 300
@@ -194,7 +195,9 @@
 !        call DGESDD('A',M,N,fjac,M,SV,U,M,VT,N,                         &
 !     & WORK, 1000*(N+M), IWORK, INFO )
 !---- Print the jacobian on the match2 variables and exit
+      print *, "yyyyya"
         call jacob_print(n,match_mode)
+              print *, "yyyyya2"
         goto 300
       endif
 
@@ -508,7 +511,6 @@
 
 
       if(match_mode.eq.1) then
-
         ncon=1
         nnode=0
         local=get_option('match_local ') .ne. 0
@@ -519,9 +521,12 @@
           do pos=range(1),range(2)
             j=advance_to_pos('twiss ',pos)
  20         continue
+
             i=next_constraint(name,name_len,type,value,c_min,c_max,weight, &
      &                        pos,val,node_name,name_len)
+
             if(i.ne.0)  then
+
               if (pos.ne.oldpos) then
                 nnode=nnode+1
                 ncon=1
@@ -529,10 +534,15 @@
               endif
               do nvar=1,n
  22             ivar=next_vary(namevar,name_len,c_min,c_max,step,slope,opt)
+               
+
                 if (ivar.eq.0) then
                   goto 22
                 endif
-                void=mtputconsname(node_name,nnode,name,ncon)
+        print *, "eeeeee after2211", node_name, nnode, name, ncon
+
+                void=mtputconsname("abc ",nnode,name,ncon)
+                print *, "eeeeee after22", void
               enddo
               ncon=ncon+1
               goto 20
@@ -542,6 +552,7 @@
         nnode=nnode+1
  30     continue
         i=next_global(name,name_len,type,value,c_min,c_max,weight)
+
         if(i.ne.0)  then
           pos=1
           do nvar=1,n
@@ -556,6 +567,7 @@
         endif
 
       endif
+                print *, "eeeeee after222"
 
   996 format(a)
   997 format(3(a16,1x),a16)

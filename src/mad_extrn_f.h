@@ -70,7 +70,7 @@
 // from mad_match.c
 #define mtcond mtcond_
 #define mtputconsname mtputconsname_
-
+#define get_step_size_match get_step_size_match_
 // from mad_node.c
 #define advance_node advance_node_ // *
 #define advance_to_pos advance_to_pos_

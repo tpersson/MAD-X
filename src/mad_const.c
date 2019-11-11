@@ -196,15 +196,16 @@ next_constraint(char* name, int* name_l, int* type, double* value,
   // NOTE: does NOT set `val` for match2: match2 seems to invoke this function
   // only via `jacob_print` where `val` is not needed.
 {
+
   struct constraint* c_c;
   char s, takenextmacro, nomore; /* RDM fork */
 
   /* RDM fork */
+  printf("eeeeeeee1111e \n");
   if (match_is_on==2) {
     int i=match2_cons_curr[0];
     int j=match2_cons_curr[1];
     int k=match2_cons_curr[2];
-
     if(match2_cons_name[i][j] == NULL) {
       j++;
 
@@ -241,21 +242,26 @@ next_constraint(char* name, int* name_l, int* type, double* value,
           match2_cons_curr[0]=i;
           match2_cons_curr[1]=j;
           match2_cons_curr[2]=k;
+          printf("eeeeeeaaaf \n");
           return k;
         } else {
           match2_cons_curr[0]=0;
           match2_cons_curr[1]=0;
           match2_cons_curr[2]=0;
+           printf("eeeeeeaaaf \n");
           return 0;
         }
       }
     }
   }
   else { /* RDM old match */
-    if (current_node->cl == NULL) return 0;
+
+    if (current_node->cl == NULL) { printf("eeeeeeaaaf \n");
+      return 0;}
 
     if (current_node->con_cnt == current_node->cl->curr) {
       current_node->con_cnt = 0;
+       printf("eeeeeeaaaf \n");
       return 0;
     }
 
@@ -285,10 +291,11 @@ next_constraint(char* name, int* name_l, int* type, double* value,
       *val = c_c->evaluated;
       current_node_name(node_name, nn_len);
     }
-
+ printf("eeeeeeaaaf \n");
     return ++current_node->con_cnt;
   }
   /* RDM fork */
+   printf("eeeeeeaaaf \n");
   return 0;
 }
 

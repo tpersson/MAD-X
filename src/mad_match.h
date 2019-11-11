@@ -7,6 +7,7 @@ struct in_cmd;
 
 // interface
 
+double get_step_size_match(void);
 void pro_match(struct in_cmd* cmd);
 
 // used by match.f90

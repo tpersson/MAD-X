@@ -80,13 +80,16 @@ mtjacprint(int m, int n,double* jac,struct in_cmd* cmd)
   for(i=0;i<imax(n,m);i++){
     for(j=0;j<imax(n,m);j++){
       if ( (i<n)&&(j<n)) {
-        fprintf(prt_file, "%-12s",command_par_string("name",stored_match_var->commands[j]));
+        printf("uuuuuuuuuuuuttt \n");
+        //fprintf(prt_file, "%-12s",command_par_string("name",stored_match_var->commands[j]));
         fprintf(prt_file, "%12.5g ",VT[j*n+i]);
+        printf("uuuuuuuuuuuuttt2 %f  \n", VT[j*n+i]);
       }
       else { fprintf(prt_file, "%24s",""); }
 
       if ( (i<imin(n,m)) &&(j==0))   {
         fprintf(prt_file, "%12.5g ",SV[i]);
+        
       }
       else { fprintf(prt_file, "%12s ",""); }
 
@@ -98,7 +101,7 @@ mtjacprint(int m, int n,double* jac,struct in_cmd* cmd)
         /*        fprintf(prt_file, "%i %i",k,l);*/
         fprintf(prt_file, "%12.5g ",U[i*m+j]);
         /*        fprintf(prt_file, "%10s ",match2_macro_name[k]);*/
-        fprintf(prt_file, "%10s ",match2_cons_name[k][l]);
+        //fprintf(prt_file, "%10s ",match2_cons_name[k][l]);
         l++;
       }
       else { fprintf(prt_file, "%22s",""); }
@@ -246,6 +249,9 @@ match_action(struct in_cmd* cmd)
            match_work[3]->a,match_work[4]->a);
 /*    if (jac_strategy==2 && match_is_on==2) {*/
     if (jac_strategy==2) {
+      printf("llllll");
+      dump_command(cmd->clone);
+      
       mtjacprint(total_const,total_vars,match_work[0]->a,cmd);
     }
   }
@@ -925,6 +931,10 @@ match_weight(struct in_cmd* cmd)
 {
   struct name_list* nl = cmd->clone->par_names;
   struct command_parameter_list* plc = cmd->clone->par;
+  if(current_weight==NULL) {
+    warning("WEIGHTS have to be given at the constraint when using: ", "MACRO");
+    return;
+  }
   struct command_parameter_list* pl = current_weight->par;
   int j;
   for (j = 0; j < pl->curr; j++)
@@ -1021,6 +1031,7 @@ next_vary(char* name, int* name_l, double* lower, double* upper, double* step, i
   /* returns the next variable to be varied during match;
      0 = none, else count */
 {
+
   int pos;
   double l_step;
   const char* v_name;
@@ -1039,11 +1050,20 @@ next_vary(char* name, int* name_l, double* lower, double* upper, double* step, i
   strfcpy(name, v_name, *name_l);
   *lower = command_par_value("lower", comm);
   *upper = command_par_value("upper", comm);
-  if ((l_step = command_par_value("step", comm)) < ten_m_12) l_step = ten_m_12;
+  if ((l_step = command_par_value("step", comm)) < ten_m_12) l_step = 1e-14;
   *step = l_step;
   *slope = command_par_value("slope", comm);
   *opt = command_par_value("opt", comm);
+  printf("aaaaa vary %d %e \n ", vary_cnt, l_step);
   return ++vary_cnt;
+}
+double get_step_size_match(void){
+  double l_step;
+  struct command* comm;
+  comm = stored_match_var->commands[vary_cnt];
+  if ((l_step = command_par_value("step", comm)) < ten_m_12) l_step = 1e-8;
+  printf("kkkkkkkkkk %d %e\n ", vary_cnt, l_step);
+  return l_step;
 }
 
 // public interface used by fortran code
@@ -1135,11 +1155,19 @@ mtputconsname(char* noden, int* nodei , char* consn, int* consi)
   int i,j;
   i = *nodei -1;
   j = *consi -1;
-  match2_macro_name[i] = mymalloc_atomic("match_match", 20 * sizeof *match2_macro_name[0]);
-  strncpy(match2_macro_name[i],noden,20);
+    printf("kkkkkkkbbbbbbbb %d \n", i); 
+    match2_alloc_arrays();
+  if(match2_macro_name==NULL) printf("isss null \n");
+  match2_macro_name[i] = mymalloc("match_match", 20 * sizeof *match2_macro_name[0]);
+  strncpy(match2_macro_name[i],"aaaab",20);
+  
+  printf("kkkkkkkbbbbbbbb \n"); 
+  
   match2_macro_name[i][19]='\0';
-  match2_cons_name[i][j] = mymalloc_atomic("match_match", 20 * sizeof *match2_cons_name[0][0]);
-  strncpy(match2_cons_name[i][j],consn,20);
+  match2_cons_name[i] = mymalloc("match_match", 20 * sizeof *match2_cons_name[0][0]);
+  match2_cons_name[i][j] = mymalloc("match_match", 20 * sizeof *match2_cons_name[0][0]);
+  strncpy(match2_cons_name[i][j],"dddd",20);
   match2_cons_name[i][j][19]='\0';
+  printf("kkkkkkkbbbbbbbbaaa %d \n", i); 
   return 0;
 }

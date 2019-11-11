@@ -20,6 +20,10 @@ int  match2_augmentnmacros(void);      /*increases space in the working arrays*/
 int  match2_print_var(struct in_cmd*);
 void match2_delete_arrays(void);
 
+void
+match2_alloc_arrays(void);
+void
+match2_init_arrays(void);
 // variables
 
 extern int MAX_MATCH_CONS; /*these are set to proper values at the initialization of the match2 module*/

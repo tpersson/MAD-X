@@ -101,7 +101,7 @@ match2_augmentnconstraints(void)
   return MAX_MATCH_CONS;
 }
 
-static void
+void
 match2_alloc_arrays(void)
 {
   const char *fn= "match2_alloc_arrays";
@@ -128,7 +128,7 @@ match2_alloc_arrays(void)
   }
 }
 
-static void
+void
 match2_init_arrays(void)
 {
   for(int i=0; i<MAX_MATCH_MACRO; i++) {
