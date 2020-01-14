@@ -269,10 +269,7 @@ make_element(const char* name, const char* parent, struct command* def, int flag
         el->length = 0;
         warning("Element defined with non-zero length (length forced to 0):",  el->name);
       }
-
     }
-    if(command_par_value("l",def) !=0 && belongs_to_class(el,"multipole"))
-      warning("Multipole defined with non-zero length:", el->name);
     
     set_aperture_element(el, def);
   }

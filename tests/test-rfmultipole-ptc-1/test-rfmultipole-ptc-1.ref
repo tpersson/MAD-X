@@ -3,7 +3,7 @@
   +     MAD-X 5.05.02  (64 bit, Linux)       +
   + Support: mad@cern.ch, http://cern.ch/mad +
   + Release   date: 2019.07.25               +
-  + Execution date: 2019.12.18 10:53:30      +
+  + Execution date: 2020.01.14 16:44:36      +
   ++++++++++++++++++++++++++++++++++++++++++++
 TITLE, 'RF-Dipole example';
 
@@ -11,6 +11,7 @@ TITLE, 'RF-Dipole example';
 
 Option, echo=false;
 
+++++++ warning: Element defined with non-zero length (length forced to 0): rfm1
 ++++++ info: n redefined
 ++++++ info: n redefined
 ++++++ info: n redefined
@@ -300,7 +301,8 @@ q1ptc              =       0.6356419808 ;
 stop;
 
 
-  Number of warnings: 0
+  Number of warnings: 1
+1 in C and 0 in Fortran
 
   ++++++++++++++++++++++++++++++++++++++++++++
   +          MAD-X finished normally         +

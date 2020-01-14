@@ -1,9 +1,9 @@
 
   ++++++++++++++++++++++++++++++++++++++++++++
-  +     MAD-X 5.04.02  (64 bit, Linux)       +
+  +     MAD-X 5.05.02  (64 bit, Linux)       +
   + Support: mad@cern.ch, http://cern.ch/mad +
-  + Release   date: 2018.10.03               +
-  + Execution date: 2019.02.20 09:54:45      +
+  + Release   date: 2019.07.25               +
+  + Execution date: 2020.01.14 16:49:27      +
   ++++++++++++++++++++++++++++++++++++++++++++
 option,debug;
 
@@ -17,7 +17,7 @@ q2:quadrupole, l=0.1,k1:=2.2453*0.5*fact;
 
 q3:multipole, l=0.2, knl:={0,-.896051*0.34*fact};
 
-++++++ warning: Multipole defined with non-zero length: q3
+++++++ warning: Element defined with non-zero length (length forced to 0): q3
 q4:quadrupole, l=0.1,  k1:=1.80457*0.5*fact;
 
 q5:multipole, knl:={0,-1.11814*0.17*fact};
@@ -99,30 +99,30 @@ parameter: pdamp   double array: 1.000000e+00 1.000000e+00 2.000000e+00
 parameter: n1min   double value:                 -1
 option,-debug,-echo;
 
-++++++ warning: Multipole defined with non-zero length: q3___________1
-++++++ warning: Multipole defined with non-zero length: q3___________2
-++++++ warning: Multipole defined with non-zero length: q3___________3
-++++++ warning: Multipole defined with non-zero length: q3___________4
-++++++ warning: Multipole defined with non-zero length: q3___________5
-++++++ warning: Multipole defined with non-zero length: q3___________6
-++++++ warning: Multipole defined with non-zero length: q3___________7
-++++++ warning: Multipole defined with non-zero length: q3___________8
-++++++ warning: Multipole defined with non-zero length: q3___________9
-++++++ warning: Multipole defined with non-zero length: q3__________10
-++++++ warning: Multipole defined with non-zero length: q3__________11
-++++++ warning: Multipole defined with non-zero length: q3__________12
-++++++ warning: Multipole defined with non-zero length: q3__________13
-++++++ warning: Multipole defined with non-zero length: q3__________14
-++++++ warning: Multipole defined with non-zero length: q3__________15
-++++++ warning: Multipole defined with non-zero length: q3__________16
-++++++ warning: Multipole defined with non-zero length: q3__________17
-++++++ warning: Multipole defined with non-zero length: q3__________18
-++++++ warning: Multipole defined with non-zero length: q3__________19
-++++++ warning: Multipole defined with non-zero length: q3__________20
-++++++ warning: Multipole defined with non-zero length: q3__________21
-++++++ warning: Multipole defined with non-zero length: q3__________22
-++++++ warning: Multipole defined with non-zero length: q3__________23
-++++++ warning: Multipole defined with non-zero length: q3__________24
+++++++ warning: Element defined with non-zero length (length forced to 0): q3___________1
+++++++ warning: Element defined with non-zero length (length forced to 0): q3___________2
+++++++ warning: Element defined with non-zero length (length forced to 0): q3___________3
+++++++ warning: Element defined with non-zero length (length forced to 0): q3___________4
+++++++ warning: Element defined with non-zero length (length forced to 0): q3___________5
+++++++ warning: Element defined with non-zero length (length forced to 0): q3___________6
+++++++ warning: Element defined with non-zero length (length forced to 0): q3___________7
+++++++ warning: Element defined with non-zero length (length forced to 0): q3___________8
+++++++ warning: Element defined with non-zero length (length forced to 0): q3___________9
+++++++ warning: Element defined with non-zero length (length forced to 0): q3__________10
+++++++ warning: Element defined with non-zero length (length forced to 0): q3__________11
+++++++ warning: Element defined with non-zero length (length forced to 0): q3__________12
+++++++ warning: Element defined with non-zero length (length forced to 0): q3__________13
+++++++ warning: Element defined with non-zero length (length forced to 0): q3__________14
+++++++ warning: Element defined with non-zero length (length forced to 0): q3__________15
+++++++ warning: Element defined with non-zero length (length forced to 0): q3__________16
+++++++ warning: Element defined with non-zero length (length forced to 0): q3__________17
+++++++ warning: Element defined with non-zero length (length forced to 0): q3__________18
+++++++ warning: Element defined with non-zero length (length forced to 0): q3__________19
+++++++ warning: Element defined with non-zero length (length forced to 0): q3__________20
+++++++ warning: Element defined with non-zero length (length forced to 0): q3__________21
+++++++ warning: Element defined with non-zero length (length forced to 0): q3__________22
+++++++ warning: Element defined with non-zero length (length forced to 0): q3__________23
+++++++ warning: Element defined with non-zero length (length forced to 0): q3__________24
 bed__________1->k0 =                  0 ;
 bed->k0            =                  0 ;
 bed__________1->k0l =                  0 ;
