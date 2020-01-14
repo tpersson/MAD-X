@@ -262,9 +262,18 @@ make_element(const char* name, const char* parent, struct command* def, int flag
     if((el->parent = find_element(parent, element_list)) == NULL)
       fatal_error("unknown class type:", parent);
     el->base_type = el->parent->base_type;
+    el->length = el_par_value("l", el);
+    if(belongs_to_class(el,"multipole") || belongs_to_class(el,"acdipole") || 
+      belongs_to_class(el,"dipedge") || belongs_to_class(el,"rfmultipole")){
+      if(command_par_value("l",def) !=0){
+        el->length = 0;
+        warning("Element defined with non-zero length (length forced to 0):",  el->name);
+      }
+
+    }
     if(command_par_value("l",def) !=0 && belongs_to_class(el,"multipole"))
       warning("Multipole defined with non-zero length:", el->name);
-    el->length = el_par_value("l", el);
+    
     set_aperture_element(el, def);
   }
   
