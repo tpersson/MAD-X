@@ -3419,9 +3419,9 @@ SUBROUTINE tmmap(code,fsec,ftrk,orbit,fmap,ek,re,te,fcentre,dl)
 
      case (code_multipole)
         if(get_option('thin_cf ').ne.zero .and. node_value('lrad ') .gt. zero) then
-          call tmmult_cf(fsec,ftrk,orbit,fmap,re,te)
+          !call tmmult_cf(fsec,ftrk,orbit,fmap,re,te)
         else
-          call tmmult(fsec,ftrk,orbit,fmap,re,te)
+          !call tmmult(fsec,ftrk,orbit,fmap,re,te)
         endif
      case (code_solenoid)
         call tmsol(fsec,ftrk,orbit,fmap,dl,ek,re,te)

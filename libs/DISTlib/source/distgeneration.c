@@ -126,7 +126,7 @@ void action2normalized(double acangl[6], double normalized[6]){
     normalized[3]=-sqrt(acangl[2])*sin(acangl[3]);
     normalized[4]= sqrt(acangl[4])*cos(acangl[5]);
     normalized[5]=-sqrt(acangl[4])*sin(acangl[5]); // used to devide with 1000 here before..
-    //printf("hooor square %f \n", sqrt(pow(normalized[0],2)+pow(normalized[1],2))) ;
+
 }
 
 void normalized2canonical(double normalized_in[6], double cancoord[6]){
@@ -211,6 +211,7 @@ void createcoordinates(int index,  double start, double stop, int length, int ty
     	for(int i=0;i <length; i++){
         	dist->incoord[i]->coord[index] = start;
     	}
+        printf("tttttttttttttttt %d %f \n", index, start);
     return;
     }
    
@@ -219,7 +220,8 @@ void createcoordinates(int index,  double start, double stop, int length, int ty
 		createLinearSpaced(length, start, stop, temp);
         for(int i=0;i <length; i++){
             dist->incoord[i]->coord[index] = temp[i];
-        }     
+        }
+
     }
     else if(type==2){ //Exponentially spaced
     	createLinearSpaced(length, start, stop, temp);

@@ -268,15 +268,15 @@ subroutine suelem(el, ve, we, tilt)
 
         ! VE is equal to default because length is zero
 
-        we(1,1) = costhe * cospsi*cospsi + sinpsi*sinpsi
-        we(2,1) = (costhe - one) * cospsi * sinpsi
-        we(3,1) = sinthe * cospsi
-        we(1,2) = we(2,1)
-        we(2,2) = costhe * sinpsi*sinpsi + cospsi*cospsi
-        we(3,2) = sinthe * sinpsi
-        we(1,3) = - we(3,1)
-        we(2,3) = - we(3,2)
-        we(3,3) = costhe
+        !we(1,1) = costhe * cospsi*cospsi + sinpsi*sinpsi
+        !we(2,1) = (costhe - one) * cospsi * sinpsi
+        !we(3,1) = sinthe * cospsi
+        !we(1,2) = we(2,1)
+        !we(2,2) = costhe * sinpsi*sinpsi + cospsi*cospsi
+        !we(3,2) = sinthe * sinpsi
+        !we(1,3) = - we(3,1)
+        !we(2,3) = - we(3,2)
+        !we(3,3) = costhe
 
 
      case (code_xrotation) !---- Rotation around X-axis.  QUESTIONABLE USEFULNESS  !!!!!!!!!!!!!

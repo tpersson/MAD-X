@@ -1628,7 +1628,7 @@ aperture(char *table, struct node* use_range[], struct table* tw_cp, int *tw_cnt
           aper_adj_quad(angle, dispx, dispy, &dispxadj, &dispyadj);
 
           /*calculate displacement co+tol for each angle*/
-          coxadj = cor * cos(angle); coyadj = cor * sin(angle);
+         // coxadj = cor * cos(angle); coyadj = cor * sin(angle);
 
           /* Error check added 20feb08 BJ */
           if ( xshift < 0 || yshift < 0 || r < 0 ) {
@@ -1636,7 +1636,7 @@ aperture(char *table, struct node* use_range[], struct table* tw_cp, int *tw_cnt
             fatal_error("Illegal negative tolerance",tol_err_mess);
           }
 
-          aper_race(xshift, yshift, r, angle, &tolx, &toly);
+          aper_race(xshift, yshift, r+cor, angle, &tolx, &toly);
           aper_adj_quad(angle, tolx, toly, &tolxadj, &tolyadj);
 
           /* add all displacements */
