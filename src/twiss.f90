@@ -6290,7 +6290,7 @@ end SUBROUTINE tmyrot
 SUBROUTINE tmdrf(fsec,ftrk,orbit,fmap,dl,ek,re,te)
   use twissbeamfi, only : beta, gamma, dtbyds
   use matrices, only : EYE
-  use math_constfi, only : zero, two, three
+  use math_constfi, only : zero, two, three, one
   implicit none
   !----------------------------------------------------------------------*
   !     Purpose:                                                         *
@@ -6308,7 +6308,7 @@ SUBROUTINE tmdrf(fsec,ftrk,orbit,fmap,dl,ek,re,te)
   !     te(6,6,6) (double)  second-order terms.                          *
   !----------------------------------------------------------------------*
   logical :: fsec, ftrk, fmap
-  double precision :: dl
+  double precision :: dl, l_pz
   double precision :: orbit(6), ek(6), re(6,6), te(6,6,6)
 
   !---- Initialize.
@@ -6337,7 +6337,13 @@ SUBROUTINE tmdrf(fsec,ftrk,orbit,fmap,dl,ek,re,te)
 
   !---- Track orbit.
   if (ftrk) call tmtrak(ek,re,te,orbit,orbit)
-
+  !   l_pz = dl / sqrt( one + two*orbit(6)*beta + orbit(6)**2 - orbit(2)**2 - orbit(4)**2)
+  !   orbit(1) = orbit(1) + l_pz*orbit(2)
+  !   orbit(3) = orbit(3) + l_pz*orbit(4)
+     ! track(5,i) = track(5,i) + el*(beti + pt*dtbyds) - (beti+pt)*l_pz
+     !---- AK 20060413
+     !---- Ripken DESY-95-189 p.36
+  !   orbit(5) = orbit(5) + beta*(dl - (one + beta*orbit(6)) * l_pz)
 end SUBROUTINE tmdrf
 
 SUBROUTINE tmrf(fsec,ftrk,fcentre,orbit,fmap,el,ds,ek,re,te)
