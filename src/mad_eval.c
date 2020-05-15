@@ -277,7 +277,7 @@ pro_input(char* statement)
   int type, code, nnb, ktmp;
   char* sem;
   int rs, re, start = 0, l = strlen(statement);
-
+  printf("fff %s \n", statement);
   clearerrorflag(); /*reset global error flag */
 
   while (start < l)

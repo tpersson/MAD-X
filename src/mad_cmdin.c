@@ -10,7 +10,7 @@ dump_in_cmd(struct in_cmd* p_inp)
   if (p_inp->cmd_def != NULL)
   {
     fprintf(prt_file, "defining command: %s\n", p_inp->cmd_def->name);
-    dump_command(p_inp->cmd_def);
+    //dump_command(p_inp->cmd_def);
   }
 }
 
@@ -104,6 +104,8 @@ void
 scan_in_cmd(struct in_cmd* cmd)
   /* reads a command into a clone of the original */
 {
+
+    dump_in_cmd(cmd);
   int cnt = 0, /* gives position in command (from 1) */
       i, k, log, n;
   struct name_list* nl = cmd->clone->par_names;
@@ -118,7 +120,7 @@ scan_in_cmd(struct in_cmd* cmd)
     if (i+1 < n && *cmd->tok_list->p[i] == '-') {
       log = 1; i++;
     }
-
+    printf("cmdddd %s \n", cmd->tok_list->p[i]);
     if (*cmd->tok_list->p[i] != ',') {
       if ((k = name_list_pos(cmd->tok_list->p[i], cmd->cmd_def->par_names)) < 0) { /* try alias */
         if ((k = name_list_pos(alias(cmd->tok_list->p[i]), cmd->cmd_def->par_names)) < 0)

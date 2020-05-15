@@ -301,14 +301,22 @@ loc_expr(char** items, int nit, int start, int* end)
   char c;
   int i, e_type = 1, par_level = 0, ltog = -1;
   *end = start - 1;
+if (nit > start+1 && is_expr_start(*items[start])) {
+  if(*items[start]=='0' && *items[start+1]=='x'){
+    *end = start+1;
+    return 5;
+    printf("aaaaabc");
+  }
+}
   if (nit > start && is_expr_start(*items[start])) {
     for (i = start; i < nit; i++) {
       c = *items[i];
+      printf("cccc %c %d %d %d \n", c, i, start, *end);
       if (c == '(')  { par_level++; e_type = 2; }
       else if (c == ')') {
         if (par_level == 0) return 0;
         par_level--; ltog = 0;
-      }
+      } 
       else if (par_level == 0) {
         if (ltog < 0)  ltog = is_operator(c) ? 1 : 0;
         else if ((ltog == 0 && is_operator(c))
