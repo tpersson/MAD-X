@@ -69,7 +69,6 @@ v_format(const char* string)
           p++;
         }
 
-        //else if (c == 'F')  strcat(var_form, "A");
         else if (c == 'F')  strcat(var_form, float_format);
         else if (c == 'S')  strcat(var_form, string_format);
         else if (c == 'I')  strcat(var_form, int_format);
@@ -85,7 +84,6 @@ v_format(const char* string)
 double
 simple_double(char** toks, int start, int end)
 {
- // printf("aaaa %s %s %d %d\n", toks,toks[end], start, end);
   if (start > end && start + 1 != end)  return INVALID;
   else if (start == end)  return atof(toks[start]);
   else
@@ -97,24 +95,22 @@ simple_double(char** toks, int start, int end)
 }
 
 double
-simple_hex(char** toks, int start, int end)
+simple_hex(char** toks, int start)
 {
-  //char test [20];
+
   char test[30];
   double hexval;
-  //test[0] = '0';
   strcpy(test, toks[start]);
+  for(int i=start; i < start+3;i++){
+    printf("kkk %d \n" ,i);
+  }
+  printf("kkk %d \n" ,2);
   strcat(test, toks[start+1]);
   strcat(test, toks[start+2]);
   strcat(test, toks[start+3]);
   
   strcat(test, "\0");
-  //strcat(test, toks[start+2]);
-
- // printf("heexxx %s %s %d %d\n", toks[start],toks[end+2], start, end);
- 
-  sscanf(test, "%lA", &hexval); /* note: %lA is used! */
-  printf("heexxx %d %d \n", start, end);
+  sscanf(test, "%lA", &hexval);
   return hexval;
 }
 
@@ -173,7 +169,7 @@ pre_split(char* inbuf, struct char_array* outbuf, int fill_flag)
   int j, k, kn, sl = strlen(inbuf), cout = 0, quote_lv = 0, rb_level = 0;
   int left_b = 0, new_string = 1, c_digit = 0, f_equal = 0, comm_cnt = 0;
   int len = strlen(inbuf);
-  printf("inbufff, %s \n", inbuf);
+
   while (2*len > outbuf->max) grow_char_array(outbuf);
   for (k = 0; k < sl; k++)
   {
@@ -191,9 +187,6 @@ pre_split(char* inbuf, struct char_array* outbuf, int fill_flag)
       c = inbuf[k];
       switch (c)
       {
-        
-       
-
         case '\"':
         case '\'':
           quote = c;
@@ -295,7 +288,6 @@ pre_split(char* inbuf, struct char_array* outbuf, int fill_flag)
         default:
           if (c == ' ') outbuf->c[cout++] = c;
           else if(c=='0' && inbuf[k+1]=='x' && k+1<sl) {
-            printf("bbb %c \n",  inbuf[k+1]);
             int start = k;
             
             outbuf->c[cout++] = ' ';
@@ -306,13 +298,10 @@ pre_split(char* inbuf, struct char_array* outbuf, int fill_flag)
                 outbuf->c[cout++] = inbuf[o+1];
                 outbuf->c[cout++] = ' ';
                 k = o+1;
-                printf("uuuua %s \n", outbuf->c);
                 break;
               }
-              printf("tttt %c \n", inbuf[o]);
               outbuf->c[cout++] = inbuf[o];
             }
-           // printf("bbb %s \n",  outbuf);
           }
           else
           {
@@ -333,11 +322,8 @@ pre_split(char* inbuf, struct char_array* outbuf, int fill_flag)
       }
       cp = c; if (c != ' ') cpnb = c;
     }
-
   }
-
   outbuf->c[cout] = '\0';
-  printf( "outbuff2 %s",  outbuf->c);
 }
 
 

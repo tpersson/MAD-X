@@ -294,7 +294,6 @@ enter_variable(struct in_cmd* cmd) /* stores variable contained in cmd */
   char *p, *n, *q = comm;
   int exp_type = loc_expr(cmd->tok_list->p, cmd->tok_list->curr,
                           start, &end);
-  printf("qqqq %d %d %d \n", end, cmd->sub_type, exp_type);
   switch (cmd->sub_type)
   {
     case 2:
@@ -373,13 +372,13 @@ enter_variable(struct in_cmd* cmd) /* stores variable contained in cmd */
     }
     else if (exp_type == 1) /* literal constant */
     {
-      printf("uuuu %s \n", name);
       val = simple_double(cmd->tok_list->p, start, end);
       var = new_variable(name, val, val_type, type, NULL, NULL);
       add_to_var_list(var, variable_list, 1);
     }
     else if(exp_type==5){
-      val = simple_hex(cmd->tok_list->p, start, end);
+      printf("ffffffff \n");
+      val = simple_hex(cmd->tok_list->p, start);
       var = new_variable(name, val, val_type, type, NULL, NULL);
       add_to_var_list(var, variable_list, 1);
     }
@@ -390,8 +389,6 @@ enter_variable(struct in_cmd* cmd) /* stores variable contained in cmd */
         if (type == 2) /* deferred: expression kept */
         {
           expr = new_expression(join(&cmd->tok_list->p[start], end + 1 - start), deco);
-          dump_expression(expr);  
-          printf("tttt %s", cmd->tok_list->p);
           val = 0; // LD 2012.10.16: drop warning due to expression_value(expr, type);
         }
         else

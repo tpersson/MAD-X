@@ -305,13 +305,11 @@ if (nit > start+1 && is_expr_start(*items[start])) {
   if(*items[start]=='0' && *items[start+1]=='x'){
     *end = start+1;
     return 5;
-    printf("aaaaabc");
   }
 }
   if (nit > start && is_expr_start(*items[start])) {
     for (i = start; i < nit; i++) {
       c = *items[i];
-      printf("cccc %c %d %d %d \n", c, i, start, *end);
       if (c == '(')  { par_level++; e_type = 2; }
       else if (c == ')') {
         if (par_level == 0) return 0;

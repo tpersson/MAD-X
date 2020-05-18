@@ -59,7 +59,7 @@ double  get_variable(const char* name);
 char*   get_varstring(const char* name);
 void    get_defined_constants(void);
 
-double simple_hex(char** toks, int start, int end);
+
 
 #endif // MAD_VAR_H
 
