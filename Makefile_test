@@ -89,7 +89,7 @@ test-line \
 test-plot test-plot-2 \
 test-setknob test-fillknob \
 test-coupling test-coupling-2 \
-test-machine-clear \
+test-machine-clear test-read-write-hex \
 \
 $(call onlx64,$(user-cases),)
 
