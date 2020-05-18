@@ -93,27 +93,6 @@ simple_double(char** toks, int start, int end)
     else return INVALID;
   }
 }
-
-double
-simple_hex(char** toks, int start)
-{
-
-  char test[30];
-  double hexval;
-  strcpy(test, toks[start]);
-  for(int i=start; i < start+3;i++){
-    printf("kkk %d \n" ,i);
-  }
-  printf("kkk %d \n" ,2);
-  strcat(test, toks[start+1]);
-  strcat(test, toks[start+2]);
-  strcat(test, toks[start+3]);
-  
-  strcat(test, "\0");
-  sscanf(test, "%lA", &hexval);
-  return hexval;
-}
-
 int
 in_spec_list(char* string)
   /* checks for presence of special commands IF() etc. */
@@ -287,13 +266,12 @@ pre_split(char* inbuf, struct char_array* outbuf, int fill_flag)
           break; 
         default:
           if (c == ' ') outbuf->c[cout++] = c;
+          //This is to handle the case of hexdecimal numbers
           else if(c=='0' && inbuf[k+1]=='x' && k+1<sl) {
             int start = k;
-            
             outbuf->c[cout++] = ' ';
             for (int o=start; o < sl ; o++){
               if(inbuf[o]=='-' || inbuf[o]=='+'){
-                //printf("tttt %c \n", inbuf[start+o+1]);
                 outbuf->c[cout++] = inbuf[o];
                 outbuf->c[cout++] = inbuf[o+1];
                 outbuf->c[cout++] = ' ';

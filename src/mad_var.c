@@ -376,12 +376,6 @@ enter_variable(struct in_cmd* cmd) /* stores variable contained in cmd */
       var = new_variable(name, val, val_type, type, NULL, NULL);
       add_to_var_list(var, variable_list, 1);
     }
-    else if(exp_type==5){
-      printf("ffffffff \n");
-      val = simple_hex(cmd->tok_list->p, start);
-      var = new_variable(name, val, val_type, type, NULL, NULL);
-      add_to_var_list(var, variable_list, 1);
-    }
     else
     {
       if (polish_expr(end + 1 - start, &cmd->tok_list->p[start]) == 0)
