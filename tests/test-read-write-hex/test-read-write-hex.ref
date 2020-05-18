@@ -3,7 +3,7 @@
   +     MAD-X 5.05.02  (64 bit, Linux)       +
   + Support: mad@cern.ch, http://cern.ch/mad +
   + Release   date: 2019.07.25               +
-  + Execution date: 2020.05.18 12:22:04      +
+  + Execution date: 2020.05.18 13:30:04      +
   ++++++++++++++++++++++++++++++++++++++++++++
 circum=15;
 
@@ -11,346 +11,28 @@ var1 = 0X1.999999929999AP-4;
 
 rfcav: RFCAVITY, VOLT=100, LAG=var1 , L = 0.1, Freq=100, fringe=1	;
 
-rfcav: type =1, sub_type = 1, decl_start = 3
-defining command: rfcavity
-command: rfcavity  module: element
-parameter: at   double value:              1e+20
-parameter: l   double value:                  0
-parameter: kmax   double value:                  0
-parameter: kmin   double value:                  0
-parameter: calib   double value:                  0
-parameter: polarity   double value:                  0
-parameter: volt   double value:                  0
-parameter: lag   double value:                  0
-parameter: freq   double value:                  0
-parameter: betrf   double value:                  0
-parameter: pg   double value:                  0
-parameter: shunt   double value:                  0
-parameter: tfill   double value:                  0
-parameter: eloss   double value:                  0
-parameter: volterr   double value:                  0
-parameter: lagerr   double value:                  0
-parameter: modulationq   double value:                  0
-parameter: ramp1   integer:          0
-parameter: ramp2   integer:          0
-parameter: ramp3   integer:          0
-parameter: ramp4   integer:          0
-parameter: binmax   double value:                  0
-parameter: mech_sep   double value:                  0
-parameter: v_pos   double value:                  0
-parameter: aperture   double array: 0.000000e+00 
-parameter: aper_offset   double array: 0.000000e+00 
-parameter: aper_tol   double array: 0.000000e+00 0.000000e+00 0.000000e+00 
-parameter: aper_vx   double array: -1.000000e+00 
-parameter: aper_vy   double array: -1.000000e+00 
-parameter: harmon   integer:          0
-parameter: nbin   integer:          0
-parameter: magnet   integer:          0
-parameter: slice   integer:          1
-parameter: slot_id   expression: none :: value:                  0
-integer:          0
-parameter: assembly_id   expression: none :: value:                  0
-integer:          0
-parameter: model   integer:         -1
-parameter: method   integer:         -1
-parameter: exact   integer:         -1
-parameter: nst   integer:         -1
-parameter: n_bessel   integer:          0
-parameter: from   string: (null)
-parameter: type   string: (null)
-parameter: lfile   string: (null)
-parameter: tfile   string: (null)
-parameter: apertype   string: circle
-parameter: fringe   integer:          0
-parameter: bend_fringe   logical: false
-parameter: kill_ent_fringe   logical: false
-parameter: kill_exi_fringe   logical: false
-parameter: aper_tilt   double value:                  0
-parameter: no_cavity_totalpath   logical: false
-parameter: time_var   logical: false
-parameter: comments   string: (null)
 ip5: marker ;
 
-ip5: type =1, sub_type = 1, decl_start = 3
-defining command: marker
-command: marker  module: element
-parameter: at   double value:              1e+20
-parameter: l   double value:                  0
-parameter: kmax   double value:                  0
-parameter: kmin   double value:                  0
-parameter: calib   double value:                  0
-parameter: polarity   double value:                  0
-parameter: type   string: (null)
-parameter: apertype   string: circle
-parameter: aperture   double array: 0.000000e+00 
-parameter: aper_offset   double array: 0.000000e+00 
-parameter: aper_tol   double array: 0.000000e+00 0.000000e+00 0.000000e+00 
-parameter: aper_vx   double array: -1.000000e+00 
-parameter: aper_vy   double array: -1.000000e+00 
-parameter: slot_id   expression: none :: value:                  0
-integer:          0
-parameter: assembly_id   expression: none :: value:                  0
-integer:          0
-parameter: mech_sep   double value:                  0
-parameter: v_pos   double value:                  0
-parameter: magnet   integer:          0
-parameter: model   integer:         -1
-parameter: method   integer:         -1
-parameter: exact   integer:         -1
-parameter: nst   integer:         -1
-parameter: from   string: (null)
-parameter: fringe   integer:          0
-parameter: bend_fringe   logical: false
-parameter: kill_ent_fringe   logical: false
-parameter: kill_exi_fringe   logical: false
-parameter: aper_tilt   double value:                  0
-parameter: comments   string: (null)
 
 
 set, format="A";
 
-(null): type =0, sub_type = 0, decl_start = 1
-defining command: set
-command: set  module: control
-parameter: sequence   string: (null)
-parameter: format   10d
-18.10g
--18s
 seq: sequence, refer=center, l=circum;
 
-seq: type =3, sub_type = 1, decl_start = 3
-defining command: sequence
-command: sequence  module: sequence
-parameter: at   double value: 0X1.5AF1D78B58C4P+66
-parameter: from   string: (null)
-parameter: refpos   string: (null)
-parameter: l   double value: 0X0P+0
-parameter: add_pass   double value: 0X0P+0
-parameter: next_sequ   string: (null)
-parameter: refer   string: centre
 rfcavi:rfcav, at = 1;
 
-(null): type =1, sub_type = 14, decl_start = 3
-defining command: rfcav
-command: rfcav  module: element
-parameter: at   double value: 0X1.5AF1D78B58C4P+66
-parameter: l   double value: 0X1.999999999999AP-4
-parameter: kmax   double value: 0X0P+0
-parameter: kmin   double value: 0X0P+0
-parameter: calib   double value: 0X0P+0
-parameter: polarity   double value: 0X0P+0
-parameter: volt   double value: 0X1.9P+6
-parameter: lag   double value: 0X1.999999929999AP-4
-parameter: freq   double value: 0X1.9P+6
-parameter: betrf   double value: 0X0P+0
-parameter: pg   double value: 0X0P+0
-parameter: shunt   double value: 0X0P+0
-parameter: tfill   double value: 0X0P+0
-parameter: eloss   double value: 0X0P+0
-parameter: volterr   double value: 0X0P+0
-parameter: lagerr   double value: 0X0P+0
-parameter: modulationq   double value: 0X0P+0
-parameter: ramp1   integer:          0
-parameter: ramp2   integer:          0
-parameter: ramp3   integer:          0
-parameter: ramp4   integer:          0
-parameter: binmax   double value: 0X0P+0
-parameter: mech_sep   double value: 0X0P+0
-parameter: v_pos   double value: 0X0P+0
-parameter: aperture   double array: 0.000000e+00 
-parameter: aper_offset   double array: 0.000000e+00 
-parameter: aper_tol   double array: 0.000000e+00 0.000000e+00 0.000000e+00 
-parameter: aper_vx   double array: -1.000000e+00 
-parameter: aper_vy   double array: -1.000000e+00 
-parameter: harmon   integer:          0
-parameter: nbin   integer:          0
-parameter: magnet   integer:          0
-parameter: slice   integer:          1
-parameter: slot_id   expression: none :: value: 0X0P+0
-integer:          0
-parameter: assembly_id   expression: none :: value: 0X0P+0
-integer:          0
-parameter: model   integer:         -1
-parameter: method   integer:         -1
-parameter: exact   integer:         -1
-parameter: nst   integer:         -1
-parameter: n_bessel   integer:          0
-parameter: from   string: (null)
-parameter: type   string: (null)
-parameter: lfile   string: (null)
-parameter: tfile   string: (null)
-parameter: apertype   string: circle
-parameter: fringe   integer:          1
-parameter: bend_fringe   logical: false
-parameter: kill_ent_fringe   logical: false
-parameter: kill_exi_fringe   logical: false
-parameter: aper_tilt   double value: 0X0P+0
-parameter: no_cavity_totalpath   logical: false
-parameter: time_var   logical: false
-parameter: comments   string: (null)
 endsequence;
 
 beam;
 
-(null): type =0, sub_type = 0, decl_start = 1
-defining command: beam
-command: beam  module: control
-parameter: particle   string: positron
-parameter: sequence   string: (null)
-parameter: bunched   logical: true
-parameter: radiate   logical: false
-parameter: mass   expression: emass :: value: 0X1.0BE91E1825569P-11
-double value: 0X1.0BE91E1825569P-11
-parameter: charge   double value: 0X1P+0
-parameter: energy   double value: 0X1P+0
-parameter: pc   double value: 0X0P+0
-parameter: gamma   double value: 0X0P+0
-parameter: beta   double value: 0X0P+0
-parameter: brho   double value: 0X0P+0
-parameter: ex   double value: 0X1P+0
-parameter: exn   double value: 0X0P+0
-parameter: ey   double value: 0X1P+0
-parameter: eyn   double value: 0X0P+0
-parameter: et   double value: 0X1.0624DD2F1A9FCP-10
-parameter: sigt   double value: 0X1P+0
-parameter: sige   double value: 0X1.0624DD2F1A9FCP-10
-parameter: kbunch   double value: 0X1P+0
-parameter: npart   double value: 0X1P+0
-parameter: bcurrent   double value: 0X0P+0
-parameter: freq0   double value: 0X0P+0
-parameter: circ   double value: 0X0P+0
-parameter: dtbyds   double value: 0X0P+0
-parameter: deltap   double value: 0X0P+0
-parameter: alfa   double value: 0X0P+0
-parameter: u0   double value: 0X0P+0
-parameter: qs   double value: 0X0P+0
-parameter: arad   double value: 0X0P+0
-parameter: bv   double value: 0X1P+0
-parameter: pdamp   double array: 1.000000e+00 1.000000e+00 2.000000e+00 
-parameter: n1min   double value: -0X1P+0
 use, sequence=seq;
 
-(null): type =0, sub_type = 0, decl_start = 1
-defining command: use
-command: use  module: control
-parameter: period   string: (null)
-parameter: sequence   string: (null)
-parameter: range   string: #s/#e
-parameter: survey   logical: false
-parameter: survtest   logical: false
 
 
 select, flag=twiss, column=name, s, x,px, y,py, pt,t, betx, bety;
 
-(null): type =0, sub_type = 0, decl_start = 1
-defining command: select
-command: select  module: control
-parameter: flag   string: (null)
-parameter: range   string: #s/#e
-parameter: class   string: (null)
-parameter: pattern   string: any
-parameter: slice   integer:          1
-parameter: step   double value: 0X0P+0
-parameter: at   double array: 
-parameter: thick   logical: false
-parameter: column   parameter: sequence   string: (null)
-parameter: full   logical: false
-parameter: clear   logical: false
 twiss, betx=1, bety=1, file="twiss_hex.dat";
 
-(null): type =0, sub_type = 0, decl_start = 1
-defining command: twiss
-command: twiss  module: twiss
-parameter: betx   double value: 0X0P+0
-parameter: alfx   double value: 0X0P+0
-parameter: mux   double value: 0X0P+0
-parameter: bety   double value: 0X0P+0
-parameter: alfy   double value: 0X0P+0
-parameter: muy   double value: 0X0P+0
-parameter: x   double value: 0X0P+0
-parameter: px   double value: 0X0P+0
-parameter: y   double value: 0X0P+0
-parameter: py   double value: 0X0P+0
-parameter: t   double value: 0X0P+0
-parameter: pt   double value: 0X0P+0
-parameter: dx   double value: 0X0P+0
-parameter: dpx   double value: 0X0P+0
-parameter: dy   double value: 0X0P+0
-parameter: dpy   double value: 0X0P+0
-parameter: wx   double value: 0X0P+0
-parameter: phix   double value: 0X0P+0
-parameter: dmux   double value: 0X0P+0
-parameter: wy   double value: 0X0P+0
-parameter: phiy   double value: 0X0P+0
-parameter: dmuy   double value: 0X0P+0
-parameter: ddx   double value: 0X0P+0
-parameter: ddpx   double value: 0X0P+0
-parameter: ddy   double value: 0X0P+0
-parameter: ddpy   double value: 0X0P+0
-parameter: r11   double value: 0X0P+0
-parameter: r12   double value: 0X0P+0
-parameter: r21   double value: 0X0P+0
-parameter: r22   double value: 0X0P+0
-parameter: energy   double value: 0X0P+0
-parameter: chrom   logical: false
-parameter: file   string: (null)
-parameter: save   string: (null)
-parameter: table   string: (null)
-parameter: beta0   string: (null)
-parameter: re11   double value: 0X1P+0
-parameter: re12   double value: 0X0P+0
-parameter: re13   double value: 0X0P+0
-parameter: re14   double value: 0X0P+0
-parameter: re15   double value: 0X0P+0
-parameter: re16   double value: 0X0P+0
-parameter: re21   double value: 0X0P+0
-parameter: re22   double value: 0X1P+0
-parameter: re23   double value: 0X0P+0
-parameter: re24   double value: 0X0P+0
-parameter: re25   double value: 0X0P+0
-parameter: re26   double value: 0X0P+0
-parameter: re31   double value: 0X0P+0
-parameter: re32   double value: 0X0P+0
-parameter: re33   double value: 0X1P+0
-parameter: re34   double value: 0X0P+0
-parameter: re35   double value: 0X0P+0
-parameter: re36   double value: 0X0P+0
-parameter: re41   double value: 0X0P+0
-parameter: re42   double value: 0X0P+0
-parameter: re43   double value: 0X0P+0
-parameter: re44   double value: 0X1P+0
-parameter: re45   double value: 0X0P+0
-parameter: re46   double value: 0X0P+0
-parameter: re51   double value: 0X0P+0
-parameter: re52   double value: 0X0P+0
-parameter: re53   double value: 0X0P+0
-parameter: re54   double value: 0X0P+0
-parameter: re55   double value: 0X1P+0
-parameter: re56   double value: 0X0P+0
-parameter: re61   double value: 0X0P+0
-parameter: re62   double value: 0X0P+0
-parameter: re63   double value: 0X0P+0
-parameter: re64   double value: 0X0P+0
-parameter: re65   double value: 0X0P+0
-parameter: re66   double value: 0X1P+0
-parameter: centre   logical: false
-parameter: ripken   logical: false
-parameter: sectormap   logical: false
-parameter: sectoracc   logical: false
-parameter: sectorpure   logical: false
-parameter: sectortable   string: (null)
-parameter: sectorfile   string: sectormap
-parameter: rmatrix   logical: false
-parameter: sequence   string: (null)
-parameter: line   string: (null)
-parameter: range   string: #s/#e
-parameter: useorbit   string: default
-parameter: keeporbit   string: default
-parameter: tolerance   double value: 0X1.0C6F7A0B5ED8DP-20
-parameter: deltap   string: (null)
-parameter: eigenvector   logical: false
-parameter: eigenfile   string: eigenvectors
-parameter: notable   logical: false
 enter Twiss module
   
 open line - error with deltap:   0.000000E+00
@@ -383,261 +65,36 @@ nflips
 
 save, sequence=seq, file=seq_hex.seq;
 
-(null): type =0, sub_type = 0, decl_start = 1
-defining command: save
-command: save  module: control
-parameter: sequence   parameter: bare   logical: false
-parameter: beam   logical: false
-parameter: mad8   logical: false
-parameter: noexpr   logical: false
-parameter: csave   logical: false
-parameter: file   string: save
-parameter: newname   string: dummy
 ++++++ warning: SAVE makes all previous USE invalid !  
 call, file="seq_hex.seq";
 
-(null): type =0, sub_type = 0, decl_start = 1
-defining command: call
-command: call  module: control
-parameter: file   string: (null)
 none = 0X0P+0;
 
 rfcav: rfcavity,l:=0X1.999999999999AP-4,volt:=0X1.9P+6,lag:=0X1.999999929999AP-4,freq:=0X1.9P+6,fringe:= 1;
 
-rfcav: type =1, sub_type = 1, decl_start = 3
-defining command: rfcavity
-command: rfcavity  module: element
-parameter: at   double value: 0X1.5AF1D78B58C4P+66
-parameter: l   double value: 0X0P+0
-parameter: kmax   double value: 0X0P+0
-parameter: kmin   double value: 0X0P+0
-parameter: calib   double value: 0X0P+0
-parameter: polarity   double value: 0X0P+0
-parameter: volt   double value: 0X0P+0
-parameter: lag   double value: 0X0P+0
-parameter: freq   double value: 0X0P+0
-parameter: betrf   double value: 0X0P+0
-parameter: pg   double value: 0X0P+0
-parameter: shunt   double value: 0X0P+0
-parameter: tfill   double value: 0X0P+0
-parameter: eloss   double value: 0X0P+0
-parameter: volterr   double value: 0X0P+0
-parameter: lagerr   double value: 0X0P+0
-parameter: modulationq   double value: 0X0P+0
-parameter: ramp1   integer:          0
-parameter: ramp2   integer:          0
-parameter: ramp3   integer:          0
-parameter: ramp4   integer:          0
-parameter: binmax   double value: 0X0P+0
-parameter: mech_sep   double value: 0X0P+0
-parameter: v_pos   double value: 0X0P+0
-parameter: aperture   double array: 0.000000e+00 
-parameter: aper_offset   double array: 0.000000e+00 
-parameter: aper_tol   double array: 0.000000e+00 0.000000e+00 0.000000e+00 
-parameter: aper_vx   double array: -1.000000e+00 
-parameter: aper_vy   double array: -1.000000e+00 
-parameter: harmon   integer:          0
-parameter: nbin   integer:          0
-parameter: magnet   integer:          0
-parameter: slice   integer:          1
-parameter: slot_id   expression: none :: value: 0X0P+0
-integer:          0
-parameter: assembly_id   expression: none :: value: 0X0P+0
-integer:          0
-parameter: model   integer:         -1
-parameter: method   integer:         -1
-parameter: exact   integer:         -1
-parameter: nst   integer:         -1
-parameter: n_bessel   integer:          0
-parameter: from   string: (null)
-parameter: type   string: (null)
-parameter: lfile   string: (null)
-parameter: tfile   string: (null)
-parameter: apertype   string: circle
-parameter: fringe   integer:          0
-parameter: bend_fringe   logical: false
-parameter: kill_ent_fringe   logical: false
-parameter: kill_exi_fringe   logical: false
-parameter: aper_tilt   double value: 0X0P+0
-parameter: no_cavity_totalpath   logical: false
-parameter: time_var   logical: false
-parameter: comments   string: (null)
 ++++++ info: element redefined: rfcav
 rfcavi: rfcav;
 
-(null): type =1, sub_type = 14, decl_start = 3
-defining command: rfcav
-command: rfcav  module: element
-parameter: at   double value: 0X1.5AF1D78B58C4P+66
-parameter: l   double value: 0X1.999999999999AP-4
-parameter: kmax   double value: 0X0P+0
-parameter: kmin   double value: 0X0P+0
-parameter: calib   double value: 0X0P+0
-parameter: polarity   double value: 0X0P+0
-parameter: volt   double value: 0X1.9P+6
-parameter: lag   double value: 0X1.999999929999AP-4
-parameter: freq   double value: 0X1.9P+6
-parameter: betrf   double value: 0X0P+0
-parameter: pg   double value: 0X0P+0
-parameter: shunt   double value: 0X0P+0
-parameter: tfill   double value: 0X0P+0
-parameter: eloss   double value: 0X0P+0
-parameter: volterr   double value: 0X0P+0
-parameter: lagerr   double value: 0X0P+0
-parameter: modulationq   double value: 0X0P+0
-parameter: ramp1   integer:          0
-parameter: ramp2   integer:          0
-parameter: ramp3   integer:          0
-parameter: ramp4   integer:          0
-parameter: binmax   double value: 0X0P+0
-parameter: mech_sep   double value: 0X0P+0
-parameter: v_pos   double value: 0X0P+0
-parameter: aperture   double array: 0.000000e+00 
-parameter: aper_offset   double array: 0.000000e+00 
-parameter: aper_tol   double array: 0.000000e+00 0.000000e+00 0.000000e+00 
-parameter: aper_vx   double array: -1.000000e+00 
-parameter: aper_vy   double array: -1.000000e+00 
-parameter: harmon   integer:          0
-parameter: nbin   integer:          0
-parameter: magnet   integer:          0
-parameter: slice   integer:          1
-parameter: slot_id   expression: none :: value: 0X0P+0
-integer:          0
-parameter: assembly_id   expression: none :: value: 0X0P+0
-integer:          0
-parameter: model   integer:         -1
-parameter: method   integer:         -1
-parameter: exact   integer:         -1
-parameter: nst   integer:         -1
-parameter: n_bessel   integer:          0
-parameter: from   string: (null)
-parameter: type   string: (null)
-parameter: lfile   string: (null)
-parameter: tfile   string: (null)
-parameter: apertype   string: circle
-parameter: fringe   integer:          1
-parameter: bend_fringe   logical: false
-parameter: kill_ent_fringe   logical: false
-parameter: kill_exi_fringe   logical: false
-parameter: aper_tilt   double value: 0X0P+0
-parameter: no_cavity_totalpath   logical: false
-parameter: time_var   logical: false
-parameter: comments   string: (null)
 ++++++ info: element redefined: rfcavi
 seq: sequence, l = 0X1.EP+3;
 
-seq: type =3, sub_type = 1, decl_start = 3
-defining command: sequence
-command: sequence  module: sequence
-parameter: at   double value: 0X1.5AF1D78B58C4P+66
-parameter: from   string: (null)
-parameter: refpos   string: (null)
-parameter: l   double value: 0X0P+0
-parameter: add_pass   double value: 0X0P+0
-parameter: next_sequ   string: (null)
-parameter: refer   string: centre
 rfcavi: rfcav, at = 0X1P+0;
 
-(null): type =1, sub_type = 14, decl_start = 3
-defining command: rfcav
-command: rfcav  module: element
-parameter: at   double value: 0X1.5AF1D78B58C4P+66
-parameter: l   double value: 0X1.999999999999AP-4
-parameter: kmax   double value: 0X0P+0
-parameter: kmin   double value: 0X0P+0
-parameter: calib   double value: 0X0P+0
-parameter: polarity   double value: 0X0P+0
-parameter: volt   double value: 0X1.9P+6
-parameter: lag   double value: 0X1.999999929999AP-4
-parameter: freq   double value: 0X1.9P+6
-parameter: betrf   double value: 0X0P+0
-parameter: pg   double value: 0X0P+0
-parameter: shunt   double value: 0X0P+0
-parameter: tfill   double value: 0X0P+0
-parameter: eloss   double value: 0X0P+0
-parameter: volterr   double value: 0X0P+0
-parameter: lagerr   double value: 0X0P+0
-parameter: modulationq   double value: 0X0P+0
-parameter: ramp1   integer:          0
-parameter: ramp2   integer:          0
-parameter: ramp3   integer:          0
-parameter: ramp4   integer:          0
-parameter: binmax   double value: 0X0P+0
-parameter: mech_sep   double value: 0X0P+0
-parameter: v_pos   double value: 0X0P+0
-parameter: aperture   double array: 0.000000e+00 
-parameter: aper_offset   double array: 0.000000e+00 
-parameter: aper_tol   double array: 0.000000e+00 0.000000e+00 0.000000e+00 
-parameter: aper_vx   double array: -1.000000e+00 
-parameter: aper_vy   double array: -1.000000e+00 
-parameter: harmon   integer:          0
-parameter: nbin   integer:          0
-parameter: magnet   integer:          0
-parameter: slice   integer:          1
-parameter: slot_id   expression: none :: value: 0X0P+0
-integer:          0
-parameter: assembly_id   expression: none :: value: 0X0P+0
-integer:          0
-parameter: model   integer:         -1
-parameter: method   integer:         -1
-parameter: exact   integer:         -1
-parameter: nst   integer:         -1
-parameter: n_bessel   integer:          0
-parameter: from   string: (null)
-parameter: type   string: (null)
-parameter: lfile   string: (null)
-parameter: tfile   string: (null)
-parameter: apertype   string: circle
-parameter: fringe   integer:          1
-parameter: bend_fringe   logical: false
-parameter: kill_ent_fringe   logical: false
-parameter: kill_exi_fringe   logical: false
-parameter: aper_tilt   double value: 0X0P+0
-parameter: no_cavity_totalpath   logical: false
-parameter: time_var   logical: false
-parameter: comments   string: (null)
 ++++++ warning: implicit element re-definition ignored: rfcavi
 endsequence;
 
 set, format="22.14e";
 
-(null): type =0, sub_type = 0, decl_start = 1
-defining command: set
-command: set  module: control
-parameter: sequence   string: (null)
-parameter: format   10d
-18.10g
--18s
 save, sequence=seq, file=seq_ascii.seq;
 
-(null): type =0, sub_type = 0, decl_start = 1
-defining command: save
-command: save  module: control
-parameter: sequence   parameter: bare   logical: false
-parameter: beam   logical: false
-parameter: mad8   logical: false
-parameter: noexpr   logical: false
-parameter: csave   logical: false
-parameter: file   string: save
-parameter: newname   string: dummy
 ++++++ warning: SAVE makes all previous USE invalid !  
 
 
 READMYTABLE, FILE="twiss_hex.dat", TABLE=myhex;
 
-(null): type =0, sub_type = 0, decl_start = 1
-defining command: readmytable
-command: readmytable  module: correct
-parameter: table   string: (null)
-parameter: file   string: (null)
 Want to make named table: myhex
 WRITE, TABLE=myhex, FILE=fodoloaded.twiss;
 
-(null): type =0, sub_type = 0, decl_start = 1
-defining command: write
-command: write  module: control
-parameter: table   string: (null)
-parameter: file   string: (null)
 stop;
 
 

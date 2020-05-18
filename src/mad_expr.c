@@ -308,7 +308,7 @@ loc_expr(char** items, int nit, int start, int* end)
       else if (c == ')') {
         if (par_level == 0) return 0;
         par_level--; ltog = 0;
-      } 
+      }
       else if (par_level == 0) {
         if (ltog < 0)  ltog = is_operator(c) ? 1 : 0;
         else if ((ltog == 0 && is_operator(c))
