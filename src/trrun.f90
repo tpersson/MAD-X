@@ -1259,7 +1259,7 @@ SUBROUTINE  ttmult_cf(track,ktrack,dxt,dyt,turn, thin_foc)
      enddo
      ! Now compute kick (Eqs. (38) in Ref. above)
      !pkick = elrad*(barkappa*(one + deltap) + del_p_g)
-    pkick = elrad*(barkappa+ del_p_g)
+     pkick = elrad*(barkappa+ del_p_g)
      dpx = real(pkick)
      dpy = - aimag(pkick)
      track(2,jtrk) = track(2,jtrk) + dpx! - dbr

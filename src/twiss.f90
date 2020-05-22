@@ -67,6 +67,7 @@ SUBROUTINE twiss(rt,disp0,tab_name,sector_tab_name)
   mode_flip  =.false.
 
   synch_1=zero;  synch_2=zero;  synch_3=zero;  synch_4=zero;  synch_5=zero
+  synch_6=zero;  synch_7=zero;  synch_8=zero;
 
   suml=zero; circ=zero; eta=zero; alfa=zero; gamtr=zero; wgt=zero
 
@@ -3034,21 +3035,21 @@ SUBROUTINE tw_synch_int()
   use twisslfi
   use twisscfi
   use twissbeamfi, only : beta
-  use math_constfi, only : two
+  use math_constfi, only : zero, two
   implicit none
   !----------------------------------------------------------------------*
   !     Purpose:                                                         *
   !     Compute and add synchrotron radiation integral                   *
   !----------------------------------------------------------------------*
   double precision :: an, e1, e2, sk1, rhoinv, blen
-  double precision :: syncint(5)
+  double precision :: syncint(8)
 
   double precision, external :: node_value
 
   !---- Initialisation
   blen = node_value('blen ')
   rhoinv = node_value('rhoinv ')
-  sk1 = node_value('k1 ')
+  sk1 = node_value('k1 ')+node_value('k1tap ')
   e1 = node_value('e1 ')
   e2 = node_value('e2 ')
   an = node_value('angle ')
@@ -3058,17 +3059,20 @@ SUBROUTINE tw_synch_int()
   endif
 
   !---- Synchrotron radiation integrals through bending magnets.
-  if (rhoinv .ne. 0.d0) then
+  
      ! Note that calcsyncint expects dx and dpx as derivatives wrt deltap.
      ! since MAD take disp(1) and disp(2) as derivatives wrt pt, they must be
      ! multiplied by beta before the call to calcsyncint.
+     syncint = zero
      call calcsyncint(rhoinv,blen,sk1,e1,e2,betx,alfx,disp(1)*beta,disp(2)*beta,syncint)
      synch_1 = synch_1 + syncint(1)
      synch_2 = synch_2 + syncint(2)
      synch_3 = synch_3 + syncint(3)
      synch_4 = synch_4 + syncint(4)
      synch_5 = synch_5 + syncint(5)
-  endif
+     synch_6 = synch_6 + syncint(6)
+
+     synch_8 = synch_8 + syncint(8)
 end subroutine tw_synch_int
 
 
@@ -3332,6 +3336,8 @@ SUBROUTINE tw_summ(rt,tt)
   call double_to_table_curr('summ ','synch_3 ' ,synch_3)
   call double_to_table_curr('summ ','synch_4 ' ,synch_4)
   call double_to_table_curr('summ ','synch_5 ' ,synch_5)
+  call double_to_table_curr('summ ','synch_6 ' ,synch_6)
+  call double_to_table_curr('summ ','synch_8 ' ,synch_8)
 
 end SUBROUTINE tw_summ
 
@@ -4244,39 +4250,12 @@ SUBROUTINE tmmult_cf(fsec, ftrk, orbit, fmap, re, te)
   ! Re[\lambda_k] = 1/k! \partial^k B_y / \partial_r^k |_{\varphi = tilt} .
   !
   ! play the role as the k'th skew- and normal field component.
-
-
-    !---- Nominal dipole strength.
-  dipr = normal(0) / (one + deltap)
-  dipi = skew(0)   / (one + deltap)
-
+  
   !####SETTING UP THE MULTIPLES
   an = node_value('angle ')
   if (an .ne. 0) f_errors(0) = f_errors(0) + normal(0) - an
 
-  !---- Dipole error.
-  dbr = f_errors(0) / (one + deltap)
-  dbi = f_errors(1) / (one + deltap)
-
-
-  if (tilt .ne. zero)  then
-     if (dipi.ne.zero .or. dipr.ne.zero) then
-        angle = atan2(dipi, dipr) - tilt
-     else
-        angle = -tilt
-     endif
-     dtmp = sqrt(dipi**2 + dipr**2)
-     dipr = dtmp * cos(angle)
-     dipi = dtmp * sin(angle)
-     dtmp = sqrt(dbi**2 + dbr**2)
-     dbr = dtmp * cos(angle)
-     dbi = dtmp * sin(angle)
-  endif
-
-  dbr = bvk * dbr
-  dbi = bvk * dbi
-  dipr = bvk * dipr
-  dipi = bvk * dipi
+  
   !Below here should not be commented output
   !---- Other components and errors.
   nord = 0
@@ -4360,13 +4339,13 @@ SUBROUTINE tmmult_cf(fsec, ftrk, orbit, fmap, re, te)
         del_p_g = del_p_g + sum0
      enddo
      ! Now compute kick (Eqs. (38) in Ref. above)
-     pkick = elrad*(barkappa*(one + deltap) + del_p_g)
+     pkick = elrad*(barkappa + del_p_g)
 
      dpx = real(pkick)
      dpy = - aimag(pkick)
 
-     orbit(2) = orbit(2) + dpx - dbr
-     orbit(4) = orbit(4) + dpy + dbi
+     orbit(2) = orbit(2) + dpx
+     orbit(4) = orbit(4) + dpy
      ! N.B. orbit(5) = \sigma/beta and orbit(6) = beta*p_\sigma
      orbit(5) = orbit(5) - elrad*(kx*orbit(1) + ky*orbit(3)) &
                 *(one + beta*orbit(6))/(one + deltap)/beta
@@ -8459,6 +8438,7 @@ SUBROUTINE tmrfmult(fsec,ftrk,orbit,fmap,ek,re,te)
 end SUBROUTINE tmrfmult
 
 SUBROUTINE calcsyncint(rhoinv,blen,k1,e1,e2,betxi,alfxi,dxi,dpxi,I)
+  use math_constfi, only : zero, one, two
   implicit none
   !----------------------------------------------------------------------*
   !     Purpose:                                                         *
@@ -8499,14 +8479,16 @@ SUBROUTINE calcsyncint(rhoinv,blen,k1,e1,e2,betxi,alfxi,dxi,dpxi,I)
   !----------------------------------------------------------------------*
 
   double precision, intent(IN) :: rhoinv, blen, k1, e1, e2, betxi, alfxi, dxi, dpxi
-  double precision, intent(OUT) :: I(5)
+  double precision, intent(OUT) :: I(8)
 
   ! local variables
-  double precision :: dx2, gamx, dispaverage, curlyhaverage
-  double precision :: betx, alfx, dx, dpx
+  double precision :: dx2, gamx, dispaverage, curlyhaverage, lq
+  double precision :: betx, alfx, dx, dpx, u0x, u1x, u2x
+  double precision :: gammai, betxaverage, k1n
   double complex :: k2, k, kl
 
   integer, external :: get_option
+  double precision, external :: node_value
 
   betx = betxi
   dx = dxi
@@ -8537,13 +8519,47 @@ SUBROUTINE calcsyncint(rhoinv,blen,k1,e1,e2,betxi,alfxi,dxi,dpxi,I)
                        gamx*(3*kl - 4*sin(kl) + sin(kl)*cos(kl))/(2*k2*kl**3) &
                      - alfx*(1-cos(kl))**2/(k*kl**3) &
                      + betx*(kl-cos(kl)*sin(kl))/(2*kl**3)))
-
+  if (rhoinv .ne. 0.d0) then
   I(1) = dispaverage * rhoinv * blen
   I(2) = rhoinv*rhoinv * blen
   I(3) = abs(rhoinv)**3 * blen
   I(4) = dispaverage*rhoinv*(rhoinv**2 + 2*k1) * blen &
            - rhoinv*rhoinv*(dx*tan(e1) + dx2*tan(e2))
   I(5) = curlyhaverage * abs(rhoinv)**3 * blen
+  end if
+
+  if(k1 .ne. 0.d0) then
+    lq = node_value('l ')
+    gammai = (one+alfxi*alfxi)/betxi;
+    dx2 = real(dx*cos(kl) + dpx*sin(kl)/k)
+    dispaverage = real(dx * sin(kl)/kl &
+             + dpxi * (1 - cos(kl))/(k*kl))
+  if(k1 .ge. zero) then
+    k1n = k1
+    u0x = (one + sin(two*sqrt(k1n)*lq)/(two*sqrt(k1n)*lq))/two
+    u1x = sin(sqrt(k1n)*lq)**two/(k1n*lq)
+    u2x = (one - sin(two*sqrt(k1n)*lq)/(two*sqrt(k1n)*lq))/(two*k1n)
+    dx2 = cos(sqrt(k1n)*lq)*dxi + (one/sqrt(k1n))*sin(sqrt(k1n)*lq)*dpxi
+    dispaverage = (dxi+dx2)/two
+  else
+    k1n = -k1
+    u0x = (one + sinh(two*sqrt(k1n)*lq)/(two*sqrt(k1n)*lq))/two
+    u1x = sinh(sqrt(k1n)*lq)**two/(k1n*lq)
+    u2x = -(one - sinh(two*sqrt(k1n)*lq)/(two*sqrt(k1n)*lq))/(two*k1n)
+     dx2 = cosh(sqrt(k1n)*lq)*dxi + (one/sqrt(k1n))*sinh(sqrt(k1n)*lq)*dpxi
+    dispaverage = (dxi+dx2)/two
+  endif
+
+    betxaverage = betxi*u0x - alfxi*u1x  + gammai*u2x
+
+    I(6) = (k1n**2)*betxaverage*lq
+    I(8) = (k1n**2)*dispaverage**2*lq
+
+    print *, "iiiii", k1n, dispaverage, betxaverage
+    print *, "bbbb", betxi, alfxi, gammai
+    print *, "betxx", betxi, betxaverage, alfxi, gammai, k1n, u0x, u1x, u2x
+    print *, "uuux", dispaverage, dxi, dx2
+  endif
 
   if (get_option('debug ') .ne. 0) then
      print *, ' '
