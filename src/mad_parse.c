@@ -267,7 +267,7 @@ pre_split(char* inbuf, struct char_array* outbuf, int fill_flag)
         default:
           if (c == ' ') outbuf->c[cout++] = c;
           //This is to handle the case of hexdecimal numbers
-          else if(c=='0' && inbuf[k+1]=='x' && k+1<sl) {
+          else if(c=='0' && inbuf[k+1]=='x' && k+1<sl && isalpha(inbuf[k-1])==0 && isdigit(inbuf[k-1])==0) {
             int start = k;
             outbuf->c[cout++] = ' ';
             for (int o=start; o < sl ; o++){
