@@ -238,7 +238,12 @@ Example:
 set, format="22.14e";
 \end{verbatim} 
 changes the current floating point format to \texttt{22.14e}; the other
-formats remain unchanged.  
+formats remain unchanged. It is also possible to get the floating point numbers
+in hexadecimal representation. To get this represetation simply write:
+\begin{verbatim}
+set, format="A";
+\end{verbatim}
+No special changes are needed in order to read back in the hexadecimal output.
 \begin{verbatim}
 set, format="s","d","g";
 \end{verbatim} 
