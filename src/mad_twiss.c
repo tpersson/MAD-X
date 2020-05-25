@@ -28,7 +28,6 @@ mult_par(const char* par, struct element* el)
   return val;
 }
 
-
 static void
 fill_beta0(struct command* beta0, struct node* node)
 {
