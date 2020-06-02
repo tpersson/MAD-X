@@ -274,8 +274,15 @@ pre_split(char* inbuf, struct char_array* outbuf, int fill_flag)
               if(inbuf[o]=='-' || inbuf[o]=='+'){
                 outbuf->c[cout++] = inbuf[o];
                 outbuf->c[cout++] = inbuf[o+1];
+                if(isdigit(inbuf[o+2]) && o+2<sl) {
+                  outbuf->c[cout++] = inbuf[o+2];
+                  k = o+2;
+                }
+                else{
+                  k = o+1;
+                }
                 outbuf->c[cout++] = ' ';
-                k = o+1;
+                
                 break;
               }
               outbuf->c[cout++] = inbuf[o];
