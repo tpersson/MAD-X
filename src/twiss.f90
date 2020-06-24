@@ -3561,7 +3561,7 @@ SUBROUTINE tmbend(ftrk,fcentre,orbit,fmap,el,dl,ek,re,te,code)
   double precision :: rw(6,6), tw(6,6,6), ek0(6)
   double precision :: x, y
   double precision :: an, sk0, sk1, sk2, sks, tilt, e1, e2, h, h1, h2, hgap, fint, fintx, rhoinv, blen, bvk
-  double precision :: dh, corr, ct, st, hx, hy, rfac, pt
+  double precision :: dh, corr, ct, st, hx, hy, rfac, pt, bk0
 
   integer, external :: el_par_vector, node_fd_errors
   double precision, external :: node_value, get_value
@@ -3614,10 +3614,12 @@ SUBROUTINE tmbend(ftrk,fcentre,orbit,fmap,el,dl,ek,re,te,code)
      !---- Apply field errors and change coefficients using DELTAP.
      F_ERRORS = zero
      n_ferr = node_fd_errors(f_errors)
-     if (sk0 .ne. 0) f_errors(0) = f_errors(0) + sk0*el - g_elpar(b_angle)
-
-
-     
+     if (sk0 .ne. 0) then
+      f_errors(0) = f_errors(0) + sk0*el - g_elpar(b_angle)
+      bk0 = sk0
+     else
+      bk0 = an/el
+     endif
 !!     if (sk0*el .ne. g_elpar(b_angle)) then
 !!        call element_name(name,len(name))
 !!        print *, name, ': k0l ~= angle, delta= ', sk0*el - g_elpar(b_angle), g_elpar(b_angle)
@@ -3658,16 +3660,16 @@ SUBROUTINE tmbend(ftrk,fcentre,orbit,fmap,el,dl,ek,re,te,code)
 
      !---- Get map for entrance fringe field and concatenate
      if (.not.kill_ent_fringe) then
-        corr = (h + h) * hgap * fint
-        call tmfrng(.true.,h,sk1,e1,h1,one,corr,rw,tw)
+        corr = (bk0 + bk0) * hgap * fint
+        call tmfrng(.true.,bk0,sk1,e1,h1,one,corr,rw,tw)
         call tmcat1(.true.,ek,re,te,ek0,rw,tw,ek,re,te)
      endif
 
    !---- Get map for exit fringe fields and concatenate
      if (.not.kill_exi_fringe) then
         if (fintx .lt. 0) fintx = fint
-        corr = (h + h) * hgap * fintx
-        call tmfrng(.true.,h,sk1,e2,h2,-one,corr,rw,tw)
+        corr = (bk0 + bk0) * hgap * fintx
+        call tmfrng(.true.,bk0,sk1,e2,h2,-one,corr,rw,tw)
         call tmcat1(.true.,ek0,rw,tw,ek,re,te,ek,re,te)
      endif
 
