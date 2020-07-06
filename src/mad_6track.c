@@ -304,6 +304,7 @@ static void att_xrotation(struct c6t_element*);
 static void att_yrotation(struct c6t_element*);
 static void att_srotation(struct c6t_element*);
 static void att_sixmarker(struct c6t_element* el);
+static void att_wire(struct c6t_element* el);
 static void att_undefined(struct c6t_element*);
 static void clean_c6t_element(struct c6t_element*);
 static struct c6t_element* create_aperture(const char* ,const char* ,double, double, double, double, double, double, double,
@@ -312,7 +313,7 @@ static void concat_drifts(void);
 static void conv_elem(void);
 static void c6t_finish(void);
 static void c6t_init(void);
-static struct c6t_element* convert_madx_to_c6t(struct node*);
+static struct c6t_element* convert_madx_to_c6t(struct node*,  int ncombined);
 // static void dump_c6t_element(struct c6t_element*); // not used
 // static void dump_c6t_sequ(int); // not used
 // static void dump_types(int); // not used
@@ -333,7 +334,7 @@ static void invert_normal(int, double*);
 // static void invert_skew(int, double*); // not used
 static void link_behind(struct c6t_element*, struct c6t_element*);
 static void link_c6t_in_front(struct c6t_element*, struct c6t_element*);
-static struct c6t_element* make_c6t_element(struct node*);
+static struct c6t_element* make_c6t_element(struct node*, int ncombined);
 static struct object* make_obj(const char*, int, int, int, int);
 static void make_multipole(struct c6t_element*);
 static void mod_errors(void);
@@ -355,7 +356,7 @@ static struct block* new_block(void);
 static void post_multipoles(void);
 static double power_of(double, int);
 static void pre_multipole(struct c6t_element*);
-static void pro_elem(struct node*);
+static void pro_elem(struct node*, int ncombined);
 static void process_c6t(void);
 static void read_sequ(void);
 static void remove_from_ellist(struct c6t_element*);
@@ -376,6 +377,7 @@ static void write_f8_errors(void);
 static void write_f3_aper(void);
 static void write_f3_aux(void);
 static void write_f3_matrix(void);
+static void write_f3_wire(void);
 static void write_f3_entry(const char*, struct c6t_element*);
 static void write_f3_mult(struct c6t_element*);
 static void write_f34_special(void);
@@ -447,7 +449,8 @@ static char el_info[][60] = /* see type_info definition */
  "xrotation    2       2       2       0       0       0",
  "yrotation    2       2       2       0       0       0",
  "srotation    2       2       2       0       0       0",
- "sixmarker    2       2       2       0       0       2"
+ "sixmarker    2       2       2       0       0       2",
+ "wire         2       2       2       0       0       2"
 };
 
 /* no. of valid element types */
@@ -667,6 +670,7 @@ assign_att(void)
         else if (strcmp(el->base_name, "yrotation") == 0) att_yrotation(el);
         else if (strcmp(el->base_name, "srotation") == 0) att_srotation(el);
         else if (strcmp(el->base_name, "sixmarker") == 0) att_sixmarker(el);
+        else if (strcmp(el->base_name, "wire") == 0) att_wire(el);
         else att_undefined(el);
       }
     }
@@ -941,7 +945,12 @@ att_sixmarker(struct c6t_element* el)
   el->out_7 = el->value[7];
 
 }
+static void 
+att_wire(struct c6t_element* el)
+{
+  el->out_1 = 15;
 
+}
 static void
 att_solenoid(struct c6t_element* el)
 {
@@ -1217,7 +1226,7 @@ create_aperture(const char* name, const char* type, double ap1, double ap2, doub
 }
 
 static struct c6t_element*
-convert_madx_to_c6t(struct node* p)
+convert_madx_to_c6t(struct node* p, int ncombined)
 {
   struct command_parameter *kn_param = NULL,*ks_param = NULL,*aper_param = NULL;
   struct command_parameter *pn_param = NULL,*ps_param = NULL;
@@ -1493,6 +1502,19 @@ convert_madx_to_c6t(struct node* p)
     }
 
   }
+  else if(strcmp(p->base_name,"wire") == 0){
+    char snum[11];
+    printf("ncombinedddd %d", ncombined);
+    strcat(t_name, "w_");
+    sprintf(snum, "%d", ncombined);
+    strcat(t_name, snum);
+    printf("ncombinedddd %s \n", t_name);
+    c6t_elem = new_c6t_element(15,t_name,p->base_name);
+
+   // clean_c6t_element(c6t_elem);
+    //strcpy(c6t_elem->org_name,t_name);
+
+  }
   else if (strcmp(p->base_name,"drift") == 0)
   {
     c6t_elem = new_c6t_element(0,t_name,p->base_name);
@@ -1728,7 +1750,8 @@ equiv_elem(void)
       if (el->flag > 0)  /* all others ignored */
       {
         if (el->equiv == el /* not yet equivalenced */
-            && strcmp(el->base_name,"marker") != 0) /* do not touch markers */
+            && strcmp(el->base_name,"marker") != 0 /* do not touch markers and wires*/
+            && strcmp(el->base_name,"wire") != 0)
         {
           for (k = j+1; k < types.member[i]->curr; k++)
           {
@@ -2071,10 +2094,10 @@ void lower(char* s)
 */
 
 static struct c6t_element*
-make_c6t_element(struct node* p)
+make_c6t_element(struct node* p, int ncombined)
 {
   struct c6t_element *tmp_element;
-  if ((tmp_element = convert_madx_to_c6t(p)))
+  if ((tmp_element = convert_madx_to_c6t(p, ncombined)))
   {
     prev_element = current_element;
     current_element = tmp_element;
@@ -2399,7 +2422,7 @@ pre_multipole(struct c6t_element* el) /* pre-process multipoles */
 }
 
 static void
-pro_elem(struct node* cnode)
+pro_elem(struct node* cnode,  int ncombined)
 /* processes one element, makes linked list */
 /* converts MADX linked list to c6t internal linked list */
 {
@@ -2410,7 +2433,7 @@ pro_elem(struct node* cnode)
 
   tag_aperture.apply=0;
   /* do the fiddly conversion but skip element if not needed */
-  if (make_c6t_element(cnode) == NULL) return;
+  if (make_c6t_element(cnode, ncombined) == NULL) return;
 
   if      (strcmp(cnode->base_name, "rbend") == 0)       mod_rbend(current_element);
   else if (strcmp(cnode->base_name, "lcavity") == 0)     mod_lcavity(current_element);
@@ -2576,9 +2599,23 @@ read_sequ(void)
   cnode = current_sequ->ex_start;
   while (cnode && cnode != current_sequ->ex_end)
   {
-    if (strstr(cnode->name,"$")==NULL) pro_elem(cnode);
-    cnode = cnode->next;
+    int ncombined = 0;
+    if(strcmp(cnode->base_name, "wire") == 0){
+      printf("wirrre is combined %s \n", cnode->base_name);
+      double inorm [20];
+      ncombined = element_vector(cnode->p_elem, "ilnorm", inorm);
+      for(int i=0; i<ncombined; i++){
+        printf("nnwires %d \n", i);
+        pro_elem(cnode, i);
+      }
+      cnode = cnode->next;
+    }
+    else{
+      if (strstr(cnode->name,"$")==NULL) pro_elem(cnode, 0);
+      cnode = cnode->next;
+    }
   }
+
   sequ_end = current_sequ->ex_end->position;
   sequ_length = sequ_end - sequ_start;
 //  last_in_sequ = current_element; // not used
@@ -3325,6 +3362,32 @@ write_f3_matrix(void)
 }
 
 static void
+write_f3_wire(void)
+{
+  current_element = first_in_sequ;
+  if (!f3) f3 = fopen("fc.3", "w");
+  int isfirst = 0;
+  while (current_element != NULL)
+  {
+    if (strcmp(current_element->base_name, "wire") == 0)
+    {
+      if(isfirst==0) {
+        fprintf(f3,"WIRE\n");
+        isfirst =1;
+      }
+      printf("aaawireeeee \n");
+      
+      fprintf(f3,"%-48s\n",current_element->name);
+    }
+     current_element = current_element->next;
+  }
+    if(isfirst >0) fprintf(f3,"NEXT\n");
+}
+   
+
+
+
+static void
 write_f3_entry(const char* option, struct c6t_element* el)
 {
   if (f3_cnt++ == 0 && !f3) f3 = fopen("fc.3", "w");
@@ -3688,6 +3751,7 @@ process_c6t(void)  /* steering routine */
   write_f34_special();
   write_f3_aux();
   write_f3_matrix();
+  write_f3_wire();
   write_f3_aper();
   write_f8_errors();
 }
