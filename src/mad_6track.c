@@ -470,6 +470,7 @@ static char name_format_aper[61];
 static char name_format_3[40];
 static char name_format_4[40];
 static char name_format_5[40];
+static char name_format_6[60];
 static int general_rf_req = 50299 ;
 //static char name_format[80]; /*This is used by fprint to determin the length of the names"*/
 
@@ -1504,17 +1505,28 @@ convert_madx_to_c6t(struct node* p, int ncombined)
   }
   else if(strcmp(p->base_name,"wire") == 0){
     char snum[11];
-    printf("ncombinedddd %d", ncombined);
     strcat(t_name, "w_");
     sprintf(snum, "%d", ncombined);
     strcat(t_name, snum);
-    printf("ncombinedddd %s \n", t_name);
     c6t_elem = new_c6t_element(15,t_name,p->base_name);
 
-   // clean_c6t_element(c6t_elem);
-    //strcpy(c6t_elem->org_name,t_name);
-
+    double ilnorm [20];
+    double xma [20];
+    double yma [20];
+    element_vector(p->p_elem, "ilnorm", ilnorm);
+    element_vector(p->p_elem, "xma", xma);
+    element_vector(p->p_elem, "yma", yma);
+    c6t_elem->value[1] = 1;
+    c6t_elem->value[2] = ilnorm[ncombined];
+    c6t_elem->value[3] = 1;
+    c6t_elem->value[4] = 0;
+    c6t_elem->value[5] = xma[ncombined]*1000;
+    c6t_elem->value[6] = yma[ncombined]*1000;
+    c6t_elem->value[7] = 0;
+    c6t_elem->value[8] = 0;
+    printf("xmmmmaa %f", xma[0]);
   }
+
   else if (strcmp(p->base_name,"drift") == 0)
   {
     c6t_elem = new_c6t_element(0,t_name,p->base_name);
@@ -2600,7 +2612,11 @@ read_sequ(void)
   while (cnode && cnode != current_sequ->ex_end)
   {
     int ncombined = 0;
+    printf("ellbase %s \n",cnode->base_name );
     if(strcmp(cnode->base_name, "wire") == 0){
+      double len = el_par_value("l", cnode->p_elem);
+      printf("llllllll %f",len);
+      if(fabs(len) > 0)  mad_error("Wire elements length needs to be 0","Makethin will save you! ");    
       printf("wirrre is combined %s \n", cnode->base_name);
       double inorm [20];
       ncombined = element_vector(cnode->p_elem, "ilnorm", inorm);
@@ -3375,9 +3391,10 @@ write_f3_wire(void)
         fprintf(f3,"WIRE\n");
         isfirst =1;
       }
-      printf("aaawireeeee \n");
-      
-      fprintf(f3,"%-48s\n",current_element->name);
+
+      fprintf(f3,name_format_short,current_element->name);
+      for(int i=1; i < 8; i++) fprintf(f3,name_format_6, current_element->value[i]);
+      fprintf(f3,"\n"); 
     }
      current_element = current_element->next;
   }
@@ -3768,6 +3785,7 @@ setup_output_string(void)
     strcpy(name_format_3,  "%-48s%20.10e%20.10e\n");
     strcpy(name_format_4, "%-48s  %14.6e%14.6e%17.9e\n");
     strcpy(name_format_5, "%23.15e %23.15e %23.15e %23.15e\n");
+    strcpy(name_format_6, "%23.15e");
   }
     else{
     strcpy(name_format,"%-16s %3d  %16.9e %17.9e  %17.9e  %17.9e  %17.9e  %17.9e\n");
@@ -3777,6 +3795,7 @@ setup_output_string(void)
     strcpy(name_format_3,"%-16s%20.10e%20.10e\n");
     strcpy(name_format_4,"%-16s  %14.6e%14.6e%17.9e\n");
     strcpy(name_format_5, "%17.9e %17.9e %17.9e %17.9e\n");
+    strcpy(name_format_6, "%17.9e");
 
   }
 }
