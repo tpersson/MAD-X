@@ -126,8 +126,14 @@ void action2normalized(double acangl[6], double normalized[6]){
     normalized[1]=-sqrt(acangl[0])*sin(acangl[1]);
     normalized[2]= sqrt(acangl[2])*cos(acangl[3]);
     normalized[3]=-sqrt(acangl[2])*sin(acangl[3]);
-    normalized[4]= sqrt(acangl[4])*cos(acangl[5]);
-    normalized[5]=-sqrt(acangl[4])*sin(acangl[5]); // used to devide with 1000 here before..
+    if(dist->incoordtype!=3) {
+        normalized[4]= sqrt(acangl[4])*cos(acangl[5]);
+        normalized[5]=-sqrt(acangl[4])*sin(acangl[5]); // used to devide with 1000 here before..
+    }
+    else{
+        normalized[4]= acangl[4];
+        normalized[5]= acangl[5]; // used to devide with 1000 here before..
+    }
 
 }
 
@@ -144,8 +150,9 @@ void normalized2canonical(double normalized_in[6], double cancoord[6]){
     if(dist->incoordtype==3) {
         double lindp = 0;
         double lindeltas=0;
-        double deltap = normalized[4];
-        double deltas = normalized[5];
+        double deltap = normalized_in[5];
+        double deltas = normalized_in[4];
+        printf("deltappp %f %f", deltap, deltas);
         double *xap;
         for(int i=0; i<4;i++){
             lindeltas = lindeltas+dist->tas[4][i]*normalized[i];

@@ -3114,6 +3114,7 @@ const char *const_element_def =
 "kill_exi_fringe = [l, false, true], "
 "aper_tilt  = [r, 0], "
 "slice    = [i, 1],  "
+"slice    = [i, 1],  "
 "xma      = [r, {0}],  "
 "yma      = [r, {0}],  "
 "ilnorm   = [r, {0}],  "
