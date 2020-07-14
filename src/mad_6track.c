@@ -1505,6 +1505,7 @@ convert_madx_to_c6t(struct node* p, int ncombined)
   }
   else if(strcmp(p->base_name,"wire") == 0){
     char snum[11];
+    int ill_l, xma_l, yma_l;
     strcat(t_name, "w_");
     sprintf(snum, "%d", ncombined);
     strcat(t_name, snum);
@@ -1513,10 +1514,11 @@ convert_madx_to_c6t(struct node* p, int ncombined)
     double ilnorm [20];
     double xma [20];
     double yma [20];
-    element_vector(p->p_elem, "ilnorm", ilnorm);
-    element_vector(p->p_elem, "xma", xma);
-    element_vector(p->p_elem, "yma", yma);
-    c6t_elem->value[1] = 1;
+    ill_l = element_vector(p->p_elem, "ilnorm", ilnorm);
+    xma_l = element_vector(p->p_elem, "xma", xma);
+    yma_l = element_vector(p->p_elem, "yma", yma);
+    if(ill_l==xma_l && ill_l==yma_l){
+    c6t_elem->value[1] = el_par_value("closed_orbit", p->p_elem);
     c6t_elem->value[2] = ilnorm[ncombined];
     c6t_elem->value[3] = 1;
     c6t_elem->value[4] = 0;
@@ -1524,7 +1526,10 @@ convert_madx_to_c6t(struct node* p, int ncombined)
     c6t_elem->value[6] = yma[ncombined]*1000;
     c6t_elem->value[7] = 0;
     c6t_elem->value[8] = 0;
-    printf("xmmmmaa %f", xma[0]);
+	}
+	else{
+		mad_error("The length of the xma, yma and ilnorm is different for element :",p->base_name);
+	}
   }
 
   else if (strcmp(p->base_name,"drift") == 0)
@@ -2612,12 +2617,9 @@ read_sequ(void)
   while (cnode && cnode != current_sequ->ex_end)
   {
     int ncombined = 0;
-    printf("ellbase %s \n",cnode->base_name );
     if(strcmp(cnode->base_name, "wire") == 0){
       double len = el_par_value("l", cnode->p_elem);
-      printf("llllllll %f",len);
       if(fabs(len) > 0)  mad_error("Wire elements length needs to be 0","Makethin will save you! ");    
-      printf("wirrre is combined %s \n", cnode->base_name);
       double inorm [20];
       ncombined = element_vector(cnode->p_elem, "ilnorm", inorm);
       for(int i=0; i<ncombined; i++){

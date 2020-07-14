@@ -46,7 +46,7 @@ namespace MaTh
   static unsigned int Verbose;
   static const std::vector<std::string> DoNotCopy ={"l","lrad","slot_id","assembly_id","slice","comments"};
   static const std::vector<std::string> DoNotCopy2=           {"slot_id","assembly_id"};
-  static const std::vector<std::string> WireCollimatorParmList={"xma","yma","ilnorm"};
+  static const std::vector<std::string> WireCollimatorParmList={"xma","yma","ilnorm","closed_orbit"};
   static char ExtraChar='_';
 }
 
@@ -1656,6 +1656,7 @@ element* SeqElList::new_marker_element(const std::string el_name, const element*
 
 element* SeqElList::create_wire_element(const element* thick_elem,int slice_no) // for slicing wire collimators, wire(s) with zero length
 {
+  std:: cout << "wireElllllllllllllllll \n";
   element* newwire=nullptr;
   command_parameter* ilnorm_param = return_param_recurse("ilnorm",thick_elem);
   if(ilnorm_param)
@@ -2520,11 +2521,13 @@ node* SeqElList::copy_thin(node* work_node) // this copies an element node and s
   if ( MaTh::Verbose>1) std::cout << __FILE__ << " " << __PRETTY_FUNCTION__ << " line " << std::setw(4) << __LINE__ << "  " << std::setw(MaTh::par_name_maxlen) << work_node->name << " " << std::setw(MaTh::el_type_maxlen) << work_node->base_name << " thin_node->length=" << work_node->length << " l=" << el_par_value("l",work_node->p_elem) << std::endl;
   node* thin_node = nullptr;
   thin_node = clone_node(work_node, 0);
+  std:: cout << "nameee" << work_node->p_elem->name;
   if (el_par_value("l",work_node->p_elem)>zero)
   {
     if ( MaTh::Verbose>1) std::cout << __FILE__ << " " << __PRETTY_FUNCTION__ << " line " << std::setw(4) << __LINE__ << "  " << std::setw(MaTh::par_name_maxlen) << work_node->name << " had length, remove" << '\n';
     thin_node->p_elem = create_sliced_element(work_node->p_elem,1); // keep original length as lrad
   }
+
   thin_node->length=0;
   thin_node->p_elem->length=0;
   return thin_node;
@@ -2544,6 +2547,7 @@ void SeqElList::slice_node() // main steering, decides how to split an individua
     bool IsWireCollimator = ( strcmp(work_node->base_name,"collimator") == 0 && return_param_recurse("ilnorm",thick_elem) );
     if ( fabs(el_par_value("l",thick_elem)) <eps ) // if the length is compatible with zero copy it directly
     {
+      if(IsWireCollimator) fatal_error("Wirecollimator must have length:",thick_elem->name);
       if(verbose>1) std::cout << __FILE__ << " " << __PRETTY_FUNCTION__ << " line " << std::setw(4) << __LINE__ << " zero length place directly copy of element " << work_node->name << '\n';
       add_node_at_end_of_sequence( copy_thin(work_node),sliced_seq );
     }

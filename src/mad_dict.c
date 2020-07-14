@@ -3117,6 +3117,7 @@ const char *const_element_def =
 "xma      = [r, {0}],  "
 "yma      = [r, {0}],  "
 "ilnorm   = [r, {0}],  "
+"closed_orbit  = [i, 1],  "
 "comments = [s, none, none]; "
 " "
 "changerefp0: element none 0 45 "
