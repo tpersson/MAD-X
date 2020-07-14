@@ -14,8 +14,8 @@ void setdistparameters(char *type, int cut_l, double* cuts, int index, int *dist
 		start_v[index+1] = 0;
 		stop_v[index]  = 1;
 		stop_v[index+1]  = twopi;
-		for(int i=0; i < 6; i++)
-			coord_t[i] = 0;
+		coord_t[index]   = 0;
+		coord_t[index+1] = 0;
 
 		if(cut_l==2){
 			setactionanglecut(index, cuts[0], cuts[1]);	
@@ -28,8 +28,8 @@ void setdistparameters(char *type, int cut_l, double* cuts, int index, int *dist
 		start_v[index+1] = 0;
 		stop_v[index]  = pow(cuts[1],2);
 		stop_v[index+1]  = twopi;
-		for(int i=0; i < 6; i++)
-			coord_t[i] = 0;
+		coord_t[index]   = 0;
+		coord_t[index+1] = 0;
 	}
 	else if(strcmp(type, "fixed")==0){
 		dist_type[index] = 0;
@@ -38,8 +38,8 @@ void setdistparameters(char *type, int cut_l, double* cuts, int index, int *dist
 		start_v[index+1] = 0;
 		stop_v[index]  = 0;
 		stop_v[index+1]  = 0;
-		for(int i=0; i < 6; i++)
-			coord_t[i] = 0;
+		coord_t[index]   = 0;
+		coord_t[index+1] = 0;
 	}
 	else if(strcmp(type, "zero")==0){
 		dist_type[index] = 0;
@@ -48,9 +48,24 @@ void setdistparameters(char *type, int cut_l, double* cuts, int index, int *dist
 		start_v[index+1] = 0;
 		stop_v[index]  = 0;
 		stop_v[index+1]  = 0;
-		for(int i=0; i < 6; i++)
-			coord_t[i] = 0;
+		
+		coord_t[index]   = 0;
+		coord_t[index+1] = 0;
 	}
+		else if(strcmp(type, "physical")==0){
+		dist_type[index] = 0;
+		dist_type[index+1] = 0;
+		start_v[index] = cuts[0]; //2J
+		start_v[index+1] = cuts[1];
+		stop_v[index]  = cuts[1];
+		stop_v[index+1]  = cuts[1];
+		//for(int i=0; i < 6; i++)
+		//	coord_t[i] = 0;
+		//}
+		printf("phy8sssisss \n");
+		coord_t[index]   = 3;
+		coord_t[index+1] = 3;
+		}
 }
 
 
@@ -109,6 +124,7 @@ void pro_distribution(struct in_cmd* p){
 	setdistparameters(type, cut_l, cuts, C_VER, dist_type, start_v,stop_v, coord_t);
 
 	type = command_par_string("longitudinal", p->clone);
+	printf("aaaaaaa %s \n", type);
 	cut_l = command_par_vector("cutsig_l", p->clone, cuts);
 	setdistparameters(type, cut_l, cuts, C_LON, dist_type, start_v,stop_v, coord_t);
 
@@ -116,10 +132,9 @@ void pro_distribution(struct in_cmd* p){
 	for(int i=0; i<6; i++){
 		setscan_para_diagonal(i,coord_t[i],dist_type[i],start_v[i],stop_v[i]);
 	}
-	
+
 
 	getunconvertedcoord(xd,pxd,yd,pyd,td,ptd, &npart);
-
 
 	table_name = command_par_string("table", p->clone);
  	dist_t = make_table(table_name, "Distribution", dist_table_cols,dist_table_types, npart);
@@ -164,8 +179,7 @@ void pro_distribution(struct in_cmd* p){
 	//free(pxd);
 	//free(yd);
 	//free(pyd);
-	//free(td);
+	//free(td);   
 	//free(ptd);
 	free_distribution(0); // free the memory in the distribution block
-
 }
