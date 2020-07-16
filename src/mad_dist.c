@@ -96,7 +96,7 @@ void pro_distribution(struct in_cmd* p){
 	}
 	else{
 		trbegn_(oneturnmat,eigen);
-		settasmatrixtranspose(eigen);
+		settasmatrixtranspose(eigen); //Eigen is the transpose becuase of fortran standard....  
 		
 	}
 
