@@ -1656,7 +1656,6 @@ element* SeqElList::new_marker_element(const std::string el_name, const element*
 
 element* SeqElList::create_wire_element(const element* thick_elem,int slice_no) // for slicing wire collimators, wire(s) with zero length
 {
-  std:: cout << "wireElllllllllllllllll \n";
   element* newwire=nullptr;
   command_parameter* ilnorm_param = return_param_recurse("ilnorm",thick_elem);
   if(ilnorm_param)
@@ -2521,7 +2520,6 @@ node* SeqElList::copy_thin(node* work_node) // this copies an element node and s
   if ( MaTh::Verbose>1) std::cout << __FILE__ << " " << __PRETTY_FUNCTION__ << " line " << std::setw(4) << __LINE__ << "  " << std::setw(MaTh::par_name_maxlen) << work_node->name << " " << std::setw(MaTh::el_type_maxlen) << work_node->base_name << " thin_node->length=" << work_node->length << " l=" << el_par_value("l",work_node->p_elem) << std::endl;
   node* thin_node = nullptr;
   thin_node = clone_node(work_node, 0);
-  std:: cout << "nameee" << work_node->p_elem->name;
   if (el_par_value("l",work_node->p_elem)>zero)
   {
     if ( MaTh::Verbose>1) std::cout << __FILE__ << " " << __PRETTY_FUNCTION__ << " line " << std::setw(4) << __LINE__ << "  " << std::setw(MaTh::par_name_maxlen) << work_node->name << " had length, remove" << '\n';

@@ -121,7 +121,6 @@ subroutine trrun(switch, turns, orbit0, rt, part_id, last_turn, last_pos, &
   !-------added by Yipeng SUN 01-12-2008--------------
   if (deltap .eq. zero) then
      onepass = get_option('onepass ') .ne. 0
-     print *, "oooooooooorbit", orbit0
      if (.not.onepass) call trclor(switch, orbit0)
   endif
 
@@ -763,7 +762,6 @@ end subroutine init_elements
 
 subroutine ttmap(switch,code,el,track,ktrack,dxt,dyt,sum,turn,part_id, &
      last_turn,last_pos,last_orbit,aperflag,maxaper,al_errors,onepass, debug, theta, thin_foc)
-
   use twtrrfi
   use twiss0fi
   use name_lenfi
@@ -3902,13 +3900,13 @@ subroutine trclor(switch,orbit0)
   do k = 1, 7
      Z(:,k) = ORBIT0
   enddo
-  print *, "bbbbbzz", Z
-  DDD(1:6) = 1.232321246d-5
+
+  DDD(1:6) = 1d-15
 
 ! How does it work without the code right after? i.e. A will always be singular!
-  do k = 1, 6
-     z(k,1) = z(k,1) + ddd(k)
-  enddo
+!  do k = 1, 6
+!     z(k,k+1) = z(k,k+1) + ddd(k)
+!  enddo
 
   Z0  = Z
   Z00 = Z
@@ -4004,11 +4002,10 @@ subroutine trclor(switch,orbit0)
      enddo !---- end of loop over nodes
 
      !---- construct one-turn map
-     print *, "DDDD", DDD
      do k=1,6
         A(:,k) = ( Z(:,k+1) - Z(:,1) ) / DDD(:)
      enddo
-     print *, "zzzzzzzzzzz", Z
+
      !---- Solve for dynamic case.
      A(:6,:6) = A(:6,:6) - EYE
      A(:6,7)  = Z(:6,1) - Z0(:6,1)

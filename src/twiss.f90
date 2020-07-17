@@ -2477,7 +2477,7 @@ SUBROUTINE tmsigma_emit(rt, s0mat)
 
   saveig = get_value('twiss ','eigenvector ').ne.zero
   if(saveig) then
-    tmp_e = RESHAPE(transpose(em), shape(tmp_e))
+    tmp_e = RESHAPE(em, shape(tmp_e))
     call print_eigenvectors(tmp_e)
   end if
 
@@ -8383,7 +8383,7 @@ SUBROUTINE tmrfmult(fsec,ftrk,orbit,fmap,ek,re,te)
   fmap = .true.
 
   !---- Set-up some parameters
-  krf = two * pi * freq * ten6p/clight;
+  krf = 2 * pi * freq * ten6p/clight;
   vrf = bvk * volt * ten3m / ( pc * (one+deltap) );
 
   !---- Particle's coordinates
@@ -8493,6 +8493,7 @@ SUBROUTINE tmrfmult(fsec,ftrk,orbit,fmap,ek,re,te)
     orbit(6) = pt;
 
   endif
+
   !---- Element Kick
   !ek(2) = -REAL(Cp0);
   !ek(4) = AIMAG(Cp0);
@@ -8775,7 +8776,7 @@ SUBROUTINE tmcrab(fsec,ftrk,orbit,fmap,el,ek,re,te)
   RD = EYE
   TD = zero
 
-!  call tmdrf(fsec,ftrk,orbit,fmap,el/two,ed,rd,td);
+  call tmdrf(fsec,ftrk,orbit,fmap,el/two,ed,rd,td);
 
   !---- Read-in the parameters
   harmon = node_value('harmon ');
@@ -8783,9 +8784,9 @@ SUBROUTINE tmcrab(fsec,ftrk,orbit,fmap,el,ek,re,te)
   elrad = node_value('lrad ')
   tilt = node_value('tilt ')
 
-  rfv  = node_value('volt ')
+  rfv =  node_value('volt ')
   freq = node_value('freq ')
-  rfl  = node_value('lag ')
+  rfl =  node_value('lag ')
 
   kn0l = rfv / pc / ten3p; ! MeV / 1d3 / GeV = rad
   pn0  = quarter + rfl; ! 2pi/4 + rfl
@@ -8884,7 +8885,6 @@ SUBROUTINE tmcrab(fsec,ftrk,orbit,fmap,el,ek,re,te)
 
   endif
 
-
   !---- Element Kick
   ek(2) = -REAL(Cp0);
   ek(4) = AIMAG(Cp0);
@@ -8924,9 +8924,9 @@ SUBROUTINE tmcrab(fsec,ftrk,orbit,fmap,el,ek,re,te)
   endif
 
   ! Add half a drift space before and after the Crab kick
-  !call tmcat1(fsec,ed,rd,td,ek,re,te,ek,re,te);
-  !call tmdrf(fsec,ftrk,orbit,fmap,el/two,ed,rd,td);
-  !call tmcat1(fsec,ek,re,te,ed,rd,td,ek,re,te);
+  call tmcat1(fsec,ed,rd,td,ek,re,te,ek,re,te);
+  call tmdrf(fsec,ftrk,orbit,fmap,el/two,ed,rd,td);
+  call tmcat1(fsec,ek,re,te,ed,rd,td,ek,re,te);
 
 end SUBROUTINE tmcrab
 SUBROUTINE twcpin_print(rt,r0mat )
