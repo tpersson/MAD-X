@@ -45,7 +45,7 @@
 @ TITLE            %30s "LHC Version 6.503 -  July 2009"
 @ ORIGIN           %16s "5.05.02 Linux 64"
 @ DATE             %08s "27/07/20"
-@ TIME             %08s "13.00.38"
+@ TIME             %08s "20.24.20"
 * NAME                                S               BETX               BETY 
 $ %s                                %le                %le                %le 
  "IP1"                                0        11.00000336        11.00000569

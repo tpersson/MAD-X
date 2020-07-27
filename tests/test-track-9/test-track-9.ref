@@ -3,7 +3,7 @@
   +     MAD-X 5.05.02  (64 bit, Linux)       +
   + Support: mad@cern.ch, http://cern.ch/mad +
   + Release   date: 2019.07.25               +
-  + Execution date: 2020.07.27 13:00:15      +
+  + Execution date: 2020.07.27 20:23:05      +
   ++++++++++++++++++++++++++++++++++++++++++++
 ! YIL13: Taken from tests_old/test_runs/track_example/
 
@@ -74,9 +74,7 @@ Number 2
 Number 3
 Number 4
 Number 5
-++++++ warning: statement not recognised: 1
 Number 6
-++++++ warning: statement not recognised: 1
 Number 7
 Number 8
 Number 9
@@ -84,8 +82,8 @@ Number 10
 exit TRACK module
 
 
-  Number of warnings: 3
-3 in C and 0 in Fortran
+  Number of warnings: 1
+1 in C and 0 in Fortran
 
   ++++++++++++++++++++++++++++++++++++++++++++
   +          MAD-X finished normally         +

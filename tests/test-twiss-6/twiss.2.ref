@@ -45,7 +45,7 @@
 @ TITLE            %08s "no-title"
 @ ORIGIN           %16s "5.05.02 Linux 64"
 @ DATE             %08s "27/07/20"
-@ TIME             %08s "13.00.38"
+@ TIME             %08s "20.24.20"
 * NAME                                X                 PX                  Y                 PY 
 $ %s                                %le                %le                %le                %le 
  "FIVECELL$START"        0.002578232586    3.848898961e-05   -2.257435415e-08   -3.834449985e-10

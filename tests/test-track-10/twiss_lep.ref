@@ -45,7 +45,7 @@
 @ TITLE            %51s "F1020B98v1.lep, 102/90 BT optics for 1998 to 97 GeV"
 @ ORIGIN           %16s "5.05.02 Linux 64"
 @ DATE             %08s "27/07/20"
-@ TIME             %08s "13.00.16"
+@ TIME             %08s "20.23.07"
 *                  S NAME                             BETX               BETY 
 $                %le %s                                %le                %le 
                   0 "IP1"                      71.23516985        35.80607776
