@@ -4161,6 +4161,7 @@ subroutine tttquad(track, ktrack)
   use trackfi
   use twiss_elpfi
   use math_constfi, only : zero, one, two, three, half
+  use trackfi, only : gammas, betas
   implicit none
   !-------------------------*
   ! Andrea Latina 2012-2013 *
@@ -4182,7 +4183,7 @@ subroutine tttquad(track, ktrack)
   double precision :: tilt
   double precision :: tmp
 
-  double precision :: hx, hy, rfac, gamma, beta, curv
+  double precision :: hx, hy, rfac, curv
   double precision :: beta_gamma, beta_sqr, f_damp_t
   integer :: jtrk, elpar_vl
 
@@ -4195,9 +4196,6 @@ subroutine tttquad(track, ktrack)
   integer, external :: node_fd_errors, el_par_vector
   integer :: n_ferr
   
-  !gamma = get_value('probe ','gamma ')
-  !beta = get_value('probe ','beta ')
-
   !---- Read-in the parameters
   elpar_vl = el_par_vector(q_k1st, g_elpar)
   
@@ -4256,7 +4254,7 @@ subroutine tttquad(track, ktrack)
      endif
 
      !---- Computes 1+delta
-     delta_plus_1 = sqrt(pt*pt + two*pt/beta + one);
+     delta_plus_1 = sqrt(pt*pt + two*pt/betas + one);
 
      !---- Radiation effects at entrance
      if (radiate) then
@@ -4266,23 +4264,23 @@ subroutine tttquad(track, ktrack)
            curv = sqrt(hx**2+hy**2);
            call trphot(length,curv,rfac,pt)
         else
-           beta_gamma = delta_plus_1 * gamma * beta;
+           beta_gamma = delta_plus_1 * gammas * betas;
            rfac = (arad * beta_gamma**3 * length / three) * (hx**2 + hy**2);
         endif
         if (damp) then
-           beta_sqr = (pt*pt + two*pt/beta + one) / (one/beta + pt)**2;
+           beta_sqr = (pt*pt + two*pt/betas + one) / (one/betas + pt)**2;
            f_damp_t = sqrt(one + rfac*(rfac - two) / beta_sqr);
            px = px * f_damp_t;
            py = py * f_damp_t;
-           pt = pt * (one - rfac) - rfac / beta;
+           pt = pt * (one - rfac) - rfac / betas;
         else
            if (jtrk.eq.1) then
-              beta_sqr = (pt*pt + two*pt/beta + one) / (one/beta + pt)**2;
+              beta_sqr = (pt*pt + two*pt/betas + one) / (one/betas + pt)**2;
               f_damp_t = sqrt(one + rfac*(rfac - two) / beta_sqr);
            endif
            px = px * f_damp_t;
            py = py * f_damp_t;
-           pt = pt * (one - rfac) - rfac / beta;
+           pt = pt * (one - rfac) - rfac / betas;
         endif
      endif
 
@@ -4296,23 +4294,23 @@ subroutine tttquad(track, ktrack)
            curv = sqrt(hx**2+hy**2);
            call trphot(length,curv,rfac,pt)
         else
-           beta_gamma = delta_plus_1 * gamma * beta;
+           beta_gamma = delta_plus_1 * gammas * betas;
            rfac = (arad * beta_gamma**3 * length / three) * (hx**2 + hy**2);
         endif
         if (damp) then
-           beta_sqr = (pt*pt + two*pt/beta + one) / (one/beta + pt)**2;
+           beta_sqr = (pt*pt + two*pt/betas + one) / (one/betas + pt)**2;
            f_damp_t = sqrt(one + rfac*(rfac - two) / beta_sqr);
            px = px * f_damp_t;
            py = py * f_damp_t;
-           pt = pt * (one - rfac) - rfac / beta;
+           pt = pt * (one - rfac) - rfac / betas;
         else
            if (jtrk.eq.1) then
-              beta_sqr = (pt*pt + two*pt/beta + one) / (one/beta + pt)**2;
+              beta_sqr = (pt*pt + two*pt/betas + one) / (one/betas + pt)**2;
               f_damp_t = sqrt(one + rfac*(rfac - two) / beta_sqr);
            endif
            px = px * f_damp_t;
            py = py * f_damp_t;
-           pt = pt * (one - rfac) - rfac / beta;
+           pt = pt * (one - rfac) - rfac / betas;
         endif
      endif
 
@@ -4362,7 +4360,7 @@ subroutine tttdipole(track, ktrack, code)
   integer :: jtrk
   double precision :: length, angle, rho, h, k0, k1
   double precision :: x, px, y, py, z, pt, delta_plus_1
-  double precision :: beta, gamma, hx, hy, rfac, curv
+  double precision :: hx, hy, rfac, curv
   double precision :: e1, e2, h1, h2, hgap, fint, fintx
   double precision :: beta_sqr, beta_gamma, f_damp_t
 
@@ -4440,7 +4438,7 @@ subroutine tttdipole(track, ktrack, code)
      z  = track(5,jtrk);
      pt = track(6,jtrk);
 
-     delta_plus_1 = sqrt(pt*pt + two*pt/beta + one);
+     delta_plus_1 = sqrt(pt*pt + two*pt/betas+ one);
 
      !---- Radiation effects at entrance.
      if (radiate) then
@@ -4452,23 +4450,23 @@ subroutine tttdipole(track, ktrack, code)
            curv = sqrt(hx**2+hy**2);
            call trphot(length * (one + h*x) - two * tan(e1)*x, curv, rfac, pt);
         else
-           beta_gamma = delta_plus_1 * gammas * beta;
+           beta_gamma = delta_plus_1 * gammas * betas;
            rfac = (arad * beta_gamma**3 * two / three) * (hx**2 + hy**2) * (length / two * (one + h*x) - tan(e1)*x)
         endif
         if (damp) then
-           beta_sqr = (pt*pt + two*pt/beta + one) / (one/beta + pt)**2;
+           beta_sqr = (pt*pt + two*pt/betas+ one) / (one/betas+ pt)**2;
            f_damp_t = sqrt(one + rfac*(rfac - two) / beta_sqr);
            px = px * f_damp_t;
            py = py * f_damp_t;
-           pt = pt * (one - rfac) - rfac / beta;
+           pt = pt * (one - rfac) - rfac / betas;
         else
            if (jtrk.eq.1) then
-              beta_sqr = (pt*pt + two*pt/beta + one) / (one/beta + pt)**2;
+              beta_sqr = (pt*pt + two*pt/betas+ one) / (one/betas+ pt)**2;
               f_damp_t = sqrt(one + rfac*(rfac - two) / beta_sqr);
            endif
            px = px * f_damp_t;
            py = py * f_damp_t;
-           pt = pt * (one - rfac) - rfac / beta;
+           pt = pt * (one - rfac) - rfac / betas;
         endif
      endif
 
@@ -4484,23 +4482,23 @@ subroutine tttdipole(track, ktrack, code)
            curv = sqrt(hx**2+hy**2);
            call trphot(length * (one + h*x) - two * tan(e2)*x, curv, rfac, pt);
         else
-           beta_gamma = delta_plus_1 * gammas * beta;
+           beta_gamma = delta_plus_1 * gammas * betas;
            rfac = (arad * beta_gamma**3 * two / three) * (hx**2 + hy**2) * (length / two * (one + h*x) - tan(e2)*x)
         endif
         if (damp) then
-           beta_sqr = (pt*pt + two*pt/beta + one) / (one/beta + pt)**2;
+           beta_sqr = (pt*pt + two*pt/betas+ one) / (one/betas+ pt)**2;
            f_damp_t = sqrt(one + rfac*(rfac - two) / beta_sqr);
            px = px * f_damp_t;
            py = py * f_damp_t;
-           pt = pt * (one - rfac) - rfac / beta;
+           pt = pt * (one - rfac) - rfac / betas;
         else
            if (jtrk.eq.1) then
-              beta_sqr = (pt*pt + two*pt/beta + one) / (one/beta + pt)**2;
+              beta_sqr = (pt*pt + two*pt/betas+ one) / (one/betas+ pt)**2;
               f_damp_t = sqrt(one + rfac*(rfac - two) / beta_sqr);
            endif
            px = px * f_damp_t;
            py = py * f_damp_t;
-           pt = pt * (one - rfac) - rfac / beta;
+           pt = pt * (one - rfac) - rfac / betas;
         endif
      endif
 

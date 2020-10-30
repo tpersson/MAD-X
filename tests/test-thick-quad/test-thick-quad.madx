@@ -9,7 +9,7 @@ twss_ebc1 : beta0,
 
 beam_ebc1 : beam, energy=1000, npart=bunchcharge, particle=proton,
             sige=1.5e-3, sigt=6e-03, 
-            ex=8e-6 * emass/5, ey=20e-9 * emass/5;
+            ex=8e-6 * emass/5, ey=20e-9 * emass/5, radiate;
 
 !!!
 !!! it creates a sequence with an RF-Multipole and multipole that cancel each other
