@@ -1437,6 +1437,7 @@ aperture(char *table, struct node* use_range[], struct table* tw_cp, int *tw_cnt
 
   /* get initial twiss parameters, from start of first element in range */
   aper_read_twiss(tw_cp->name, tw_cnt, &s_end, &x, &y, &px, &py, &betx, &bety, &dx, &dy, &pt_ele);
+  pt_ele = 0;
   
   // LD: shift further results by one step (?) and finish outside the table
   //  (*tw_cnt)++;
@@ -1518,6 +1519,7 @@ aperture(char *table, struct node* use_range[], struct table* tw_cp, int *tw_cnt
       x_intersect = 999999; y_intersect = 999999;
 
       aper_read_twiss(tw_cp->name, tw_cnt, &s_end, &x, &y, &px, &py, &betx, &bety, &dx, &dy, &pt_ele);
+      pt_ele = 0;
       aper_write_table(name, &n1, &n1x_m, &n1y_m, &r, &xshift, &yshift, &xoffset, &yoffset,
        apertype, &ap1, &ap2, &ap3, &ap4, &on_ap, &on_elem, &spec,
        &s_end, &x, &y, &px, &py, &betx, &bety, &dx, &dy, &x_intersect, &y_intersect, table);
@@ -1612,6 +1614,7 @@ aperture(char *table, struct node* use_range[], struct table* tw_cp, int *tw_cnt
         else {
           aper_read_twiss("embedded_twiss_table", &jslice, &s, &x, &y, &px, &py,
            &betx, &bety, &dx, &dy,  &pt_ele);
+          pt_ele = 0 ;
 
           if(debug) printf("embedded twiss for slice %d: s= %f betx= %f bety= %f dx= %f dy= %f\n",
             jslice, s, betx, bety, dx, dy);
